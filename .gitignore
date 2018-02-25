@@ -1,0 +1,5 @@
+*.xccheckout
+*.xcscmbluepring
+build/
+DerivedData/
+xcurserdata/
