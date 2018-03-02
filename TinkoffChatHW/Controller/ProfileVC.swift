@@ -11,7 +11,7 @@ import UIKit
 class ProfileVC: UIViewController {
     
     @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var descriptionLbl: UILabel!
+    @IBOutlet weak var descriptionLbl: TopAllignmentLabel!
     @IBOutlet weak var userImg: UIImageView!
     @IBOutlet weak var changeUserImgBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
