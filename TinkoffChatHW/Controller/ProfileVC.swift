@@ -45,6 +45,7 @@ class ProfileVC: UIViewController {
     @IBAction func editBtnWasPressed(_ sender: Any) {
         
     }
+    
     @IBAction func changeUserImgBtnWasPressed(_ sender: Any) {
         let changeUserImage = UIAlertController(title: "Выбрать фотографию", message: "Как бы вы хотели выбрать фотографию для своего профиля?", preferredStyle: .actionSheet)
         let galleryAction = UIAlertAction(title: "Взять из галереи", style: .default) { (buttonTapped) in
@@ -77,6 +78,10 @@ class ProfileVC: UIViewController {
         editBtn.layer.borderWidth = 2.5
         editBtn.layer.borderColor = UIColor.black.cgColor
     }
+    
+    @IBAction func backBtnWasPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -91,5 +96,7 @@ extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDele
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
 }
 

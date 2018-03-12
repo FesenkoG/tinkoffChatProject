@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		6627C13A2049383E00F2532C /* TopAllignmentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6627C1392049383E00F2532C /* TopAllignmentLabel.swift */; };
+		66805B37205436560061CDA0 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B36205436560061CDA0 /* Channel.swift */; };
+		66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B38205436D70061CDA0 /* ConversationCell.swift */; };
+		66805B3C20552B9E0061CDA0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B3B20552B9E0061CDA0 /* DataService.swift */; };
+		66805B3E20552E7B0061CDA0 /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B3D20552E7B0061CDA0 /* ConversationsVC.swift */; };
+		66805B4120553E3B0061CDA0 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B4020553E3B0061CDA0 /* ConversationVC.swift */; };
+		66805B4320553FCF0061CDA0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B4220553FCF0061CDA0 /* Message.swift */; };
+		66805B45205592160061CDA0 /* IncomingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B44205592160061CDA0 /* IncomingCell.swift */; };
+		66805B47205592220061CDA0 /* OutgoingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B46205592220061CDA0 /* OutgoingCell.swift */; };
 		66BA93C32042F33700C08154 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93C22042F33700C08154 /* AppDelegate.swift */; };
 		66BA93C52042F33700C08154 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93C42042F33700C08154 /* ProfileVC.swift */; };
 		66BA93C82042F33700C08154 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BA93C62042F33700C08154 /* Main.storyboard */; };
@@ -18,6 +26,14 @@
 
 /* Begin PBXFileReference section */
 		6627C1392049383E00F2532C /* TopAllignmentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopAllignmentLabel.swift; sourceTree = "<group>"; };
+		66805B36205436560061CDA0 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		66805B38205436D70061CDA0 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		66805B3B20552B9E0061CDA0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		66805B3D20552E7B0061CDA0 /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
+		66805B4020553E3B0061CDA0 /* ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationVC.swift; sourceTree = "<group>"; };
+		66805B4220553FCF0061CDA0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		66805B44205592160061CDA0 /* IncomingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCell.swift; sourceTree = "<group>"; };
+		66805B46205592220061CDA0 /* OutgoingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCell.swift; sourceTree = "<group>"; };
 		66BA93BF2042F33700C08154 /* TinkoffChatHW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChatHW.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BA93C22042F33700C08154 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BA93C42042F33700C08154 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -43,8 +59,28 @@
 			isa = PBXGroup;
 			children = (
 				6627C1392049383E00F2532C /* TopAllignmentLabel.swift */,
+				66805B38205436D70061CDA0 /* ConversationCell.swift */,
+				66805B44205592160061CDA0 /* IncomingCell.swift */,
+				66805B46205592220061CDA0 /* OutgoingCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		66805B35205435F90061CDA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				66805B36205436560061CDA0 /* Channel.swift */,
+				66805B4220553FCF0061CDA0 /* Message.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		66805B3A20552B900061CDA0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				66805B3B20552B9E0061CDA0 /* DataService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		66BA93B62042F33700C08154 = {
@@ -66,6 +102,8 @@
 		66BA93C12042F33700C08154 /* TinkoffChatHW */ = {
 			isa = PBXGroup;
 			children = (
+				66805B3A20552B900061CDA0 /* Services */,
+				66805B35205435F90061CDA0 /* Model */,
 				6627C1382049382000F2532C /* View */,
 				66BA93D620431FFF00C08154 /* Controller */,
 				66BA93C22042F33700C08154 /* AppDelegate.swift */,
@@ -82,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				66BA93C42042F33700C08154 /* ProfileVC.swift */,
+				66805B3D20552E7B0061CDA0 /* ConversationsVC.swift */,
+				66805B4020553E3B0061CDA0 /* ConversationVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,8 +198,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66805B3E20552E7B0061CDA0 /* ConversationsVC.swift in Sources */,
 				66BA93C52042F33700C08154 /* ProfileVC.swift in Sources */,
+				66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */,
+				66805B3C20552B9E0061CDA0 /* DataService.swift in Sources */,
+				66805B37205436560061CDA0 /* Channel.swift in Sources */,
 				6627C13A2049383E00F2532C /* TopAllignmentLabel.swift in Sources */,
+				66805B45205592160061CDA0 /* IncomingCell.swift in Sources */,
+				66805B4120553E3B0061CDA0 /* ConversationVC.swift in Sources */,
+				66805B47205592220061CDA0 /* OutgoingCell.swift in Sources */,
+				66805B4320553FCF0061CDA0 /* Message.swift in Sources */,
 				66BA93C32042F33700C08154 /* AppDelegate.swift in Sources */,
 				66BA93D520431ECF00C08154 /* Functions.swift in Sources */,
 			);
