@@ -17,15 +17,14 @@ class OutgoingCell: UITableViewCell {
         messageTextLbl.translatesAutoresizingMaskIntoConstraints = false
         bubbleImage.translatesAutoresizingMaskIntoConstraints = false
         
-        let screenwidth = UIScreen.main.bounds.width
         
         messageTextLbl.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12.0).isActive = true
-        messageTextLbl.widthAnchor.constraint(equalToConstant: 3 * screenwidth / 4 - 28).isActive = true
+        messageTextLbl.widthAnchor.constraint(equalToConstant: bubbleWidth - 28).isActive = true
         messageTextLbl.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16).isActive = true
         messageTextLbl.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -12.0).isActive = true
         
         bubbleImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 6).isActive = true
-        bubbleImage.widthAnchor.constraint(equalToConstant: 3 * screenwidth / 4 - 2).isActive = true
+        bubbleImage.widthAnchor.constraint(equalToConstant: bubbleWidth - 2).isActive = true
         bubbleImage.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -2).isActive = true
         bubbleImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -6).isActive = true
         

@@ -14,14 +14,18 @@ class ConversationCell: UITableViewCell {
     @IBOutlet weak var lastMessageLbl: UILabel!
     @IBOutlet weak var dateOfLastMessageLbl: UILabel!
     
-    
+    override func prepareForReuse() {
+        nameLbl.text = ""
+        lastMessageLbl.text = ""
+        dateOfLastMessageLbl.text = ""
+        dateOfLastMessageLbl.isHidden = false
+        lastMessageLbl.adjustsFontForContentSizeCategory = false
+        lastMessageLbl.font = UIFont.systemFont(ofSize: 17)
+    }
     
     func configureCell(channel: Channel) {
         nameLbl.text = channel.name
-        dateOfLastMessageLbl.isHidden = false
         
-        lastMessageLbl.adjustsFontForContentSizeCategory = false
-        lastMessageLbl.font = UIFont.systemFont(ofSize: 17)
         if let lastMessage = channel.message {
             lastMessageLbl.text = lastMessage
             
@@ -43,12 +47,12 @@ class ConversationCell: UITableViewCell {
                 let day = calendar.component(.day, from: date)
                 
                 
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd MMM HH:mm"
-                
-                let stringGivenDate = dateFormatter.string(from: date)
-                let datee = stringGivenDate[..<stringGivenDate.index(stringGivenDate.startIndex, offsetBy: 6)]
-                let time = stringGivenDate[stringGivenDate.index(stringGivenDate.endIndex, offsetBy: -5)...]
+                let getDate = DateFormatter()
+                let getTime = DateFormatter()
+                getDate.dateFormat = "dd MMM"
+                getTime.dateFormat = "HH:mm"
+                let datee = getDate.string(from: date)
+                let time = getTime.string(from: date)
                 
                 if year == currentYear, month == currentMonth, day == currentDay {
                     dateOfLastMessageLbl.text = "\(time)"

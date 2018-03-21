@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConversationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -31,9 +31,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages[0].count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if messages[0][indexPath.row].isIncoming {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell") as? IncomingCell else { return UITableViewCell() }
@@ -45,6 +47,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return cell
         }
     }
+    
     
     
     

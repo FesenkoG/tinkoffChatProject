@@ -16,14 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let state = convertState(state: UIApplication.shared.applicationState)
-        if state != prevState {
-            print("Application moved from \("Not running") to \(state): \(#function)")
-        } else {
-            print("Application is still in \(state): \(#function)")
+        if let color = UserDefaults.standard.colorForKey(key: "Theme") {
+            UINavigationBar.appearance().barTintColor = color
         }
-        
-        prevState = state
+        if let tintColor = UserDefaults.standard.colorForKey(key: "ThemeTint") {
+            UINavigationBar.appearance().tintColor = tintColor
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: tintColor]
+        }
         return true
     }
 

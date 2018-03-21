@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController {
+class ProfileViewController: UIViewController {
     
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var descriptionLbl: TopAllignmentLabel!
@@ -18,28 +18,16 @@ class ProfileVC: UIViewController {
     
     let imagePicker = UIImagePickerController()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        // В методе init не получится распечатать frame кнопки, т.к. кнопки попросту не существует на момент вызова метода init. Вместо кнопки nil. Кнопка появляется только в методе loadView(), в котором она инициализируется из .storyboard, а метод  loadView() вызывается после init.
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         imagePicker.delegate = self
-        print(editBtn.frame)
         
         if let profileImgDate = UserDefaults.standard.object(forKey: "profileImg") as? Data {
             if let image = UIImage(data: profileImgDate) {
                 self.userImg.image = image
             }
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //Frame отличается, потому что в ViewDidLoad отображаются размеры кнопки, рассчитанные для девайса, выбранного в .storyboard, а в ViewDidAppear уже для девайса, на котором запущенно приложение. В методе viewDidAppear кнопка инициализируется уже не из .storuboard, а из запущенного приложения.
-        print(editBtn.frame)
     }
     
     @IBAction func editBtnWasPressed(_ sender: Any) {
@@ -49,17 +37,21 @@ class ProfileVC: UIViewController {
     @IBAction func changeUserImgBtnWasPressed(_ sender: Any) {
         let changeUserImage = UIAlertController(title: "Выбрать фотографию", message: "Как бы вы хотели выбрать фотографию для своего профиля?", preferredStyle: .actionSheet)
         let galleryAction = UIAlertAction(title: "Взять из галереи", style: .default) { (buttonTapped) in
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .photoLibrary
-            self.present(self.imagePicker, animated: true, completion: nil)
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                self.imagePicker.allowsEditing = false
+                self.imagePicker.sourceType = .photoLibrary
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
+            
         }
         let photoAction = UIAlertAction(title: "Сделать фото", style: .default) { (buttonTapped) in
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .camera
-            self.imagePicker.cameraCaptureMode = .photo
-            self.imagePicker.modalPresentationStyle = .fullScreen
-            
-            self.present(self.imagePicker, animated: true, completion: nil)
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                self.imagePicker.allowsEditing = false
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.cameraCaptureMode = .photo
+                self.imagePicker.modalPresentationStyle = .fullScreen
+                self.present(self.imagePicker, animated: true, completion: nil)
+            }
         }
         changeUserImage.addAction(galleryAction)
         changeUserImage.addAction(photoAction)
@@ -84,7 +76,7 @@ class ProfileVC: UIViewController {
     }
 }
 
-extension ProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         let imgData = UIImageJPEGRepresentation(image, 1.0)
