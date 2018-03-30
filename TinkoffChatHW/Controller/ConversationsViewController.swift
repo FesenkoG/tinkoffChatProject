@@ -97,9 +97,10 @@ class ConversationsViewController: UITableViewController {
         UINavigationBar.appearance().barTintColor = selectedTheme.barColor
         UINavigationBar.appearance().tintColor = selectedTheme.tintColor
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: selectedTheme.tintColor]
-        
-        UserDefaults.standard.setColor(color: selectedTheme.barColor, forKey: "Theme")
-        UserDefaults.standard.setColor(color: selectedTheme.tintColor, forKey: "ThemeTint")
+        DispatchQueue.global(qos: .background).async {
+            UserDefaults.standard.setColor(color: selectedTheme.barColor, forKey: "Theme")
+            UserDefaults.standard.setColor(color: selectedTheme.tintColor, forKey: "ThemeTint")
+        }
     }
     
 }

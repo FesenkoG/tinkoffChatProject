@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plk-l5-4iM">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plk-l5-4iM" customClass="RoundedButton" customModule="TinkoffChatHW" customModuleProvider="target">
                                 <rect key="frame" x="16" y="502" width="288" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -41,18 +41,6 @@
                                     <action selector="editBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KDg-MU-5da"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Георгий Фесенко" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZf-Cx-COP">
-                                <rect key="frame" x="16" y="346" width="288" height="27"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="23"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Описание профиля" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbk-mz-uOv" customClass="TopAllignmentLabel" customModule="TinkoffChatHW" customModuleProvider="target">
-                                <rect key="frame" x="16" y="381" width="288" height="113"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pur-SW-bfO">
                                 <rect key="frame" x="16" y="46" width="288" height="288"/>
                                 <subviews>
@@ -95,37 +83,89 @@
                                     <action selector="backBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ldS-kD-CHf"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Георгий Фесенко" placeholder="Имя пользователя" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EHm-Un-R8o">
+                                <rect key="frame" x="16" y="342" width="288" height="21"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Тут должно быть описание" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uDm-Z6-WQr">
+                                <rect key="frame" x="16" y="371" width="288" height="123"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="c9B-uP-2ey">
+                                <rect key="frame" x="16" y="502" width="288" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4F-gt-uH3" customClass="RoundedButton" customModule="TinkoffChatHW" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="139" height="50"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                        <state key="normal" title="GCD">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="P40-ys-ele"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsb-wF-4Xz" customClass="RoundedButton" customModule="TinkoffChatHW" customModuleProvider="target">
+                                        <rect key="frame" x="149" y="0.0" width="139" height="50"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                        <state key="normal" title="Operation">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveBtnWasPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="izG-Sk-0MS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E4d-U4-VAt">
+                                <rect key="frame" x="142" y="385.5" width="37" height="37"/>
+                                <color key="color" name="selectedTextColor" catalog="System" colorSpace="catalog"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WZf-Cx-COP" secondAttribute="trailing" constant="16" id="530-dJ-Z4p"/>
+                            <constraint firstItem="c9B-uP-2ey" firstAttribute="height" secondItem="plk-l5-4iM" secondAttribute="height" id="2cV-rB-ZP8"/>
+                            <constraint firstItem="uDm-Z6-WQr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="49Z-NS-XkF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pur-SW-bfO" secondAttribute="trailing" constant="16" id="5Nh-UE-RuK"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rbk-mz-uOv" secondAttribute="trailing" constant="16" id="5Rh-kc-pOX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uDm-Z6-WQr" secondAttribute="trailing" constant="16" id="7m6-XY-JsE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c9B-uP-2ey" secondAttribute="trailing" constant="16" id="8rM-ZV-adf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="plk-l5-4iM" secondAttribute="bottom" constant="16" id="IH7-i7-dSr"/>
-                            <constraint firstItem="WZf-Cx-COP" firstAttribute="top" secondItem="pur-SW-bfO" secondAttribute="bottom" constant="12" id="Npp-XK-8Md"/>
-                            <constraint firstItem="WZf-Cx-COP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RN6-g9-B0r"/>
-                            <constraint firstItem="rbk-mz-uOv" firstAttribute="top" secondItem="WZf-Cx-COP" secondAttribute="bottom" constant="8" id="Sb8-4d-K8m"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="c9B-uP-2ey" secondAttribute="bottom" constant="16" id="Wg3-2m-bEf"/>
+                            <constraint firstItem="EHm-Un-R8o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="WnI-Ct-Ko2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EHm-Un-R8o" secondAttribute="trailing" constant="16" id="ah5-zj-uGn"/>
                             <constraint firstItem="pur-SW-bfO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="cnl-3y-gyK"/>
-                            <constraint firstItem="plk-l5-4iM" firstAttribute="top" secondItem="rbk-mz-uOv" secondAttribute="bottom" constant="8" id="fjT-3E-Sf7"/>
-                            <constraint firstItem="rbk-mz-uOv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="jdv-F7-mh9"/>
+                            <constraint firstItem="uDm-Z6-WQr" firstAttribute="top" secondItem="EHm-Un-R8o" secondAttribute="bottom" constant="8" id="f2B-eK-Y1y"/>
                             <constraint firstItem="pur-SW-bfO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="k6H-sM-hhB"/>
+                            <constraint firstItem="c9B-uP-2ey" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="kkT-UR-hK1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="plk-l5-4iM" secondAttribute="trailing" constant="16" id="lPH-kI-Eb7"/>
                             <constraint firstItem="pur-SW-bfO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="26" id="rNN-Dy-mbp"/>
                             <constraint firstItem="plk-l5-4iM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="sV9-wh-UqQ"/>
+                            <constraint firstItem="E4d-U4-VAt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tuK-KJ-Bci"/>
+                            <constraint firstItem="E4d-U4-VAt" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="120" id="xRP-fw-E2z"/>
+                            <constraint firstItem="EHm-Un-R8o" firstAttribute="top" secondItem="pur-SW-bfO" secondAttribute="bottom" constant="8" id="y86-r2-l1M"/>
+                            <constraint firstItem="plk-l5-4iM" firstAttribute="top" secondItem="uDm-Z6-WQr" secondAttribute="bottom" constant="8" id="zBa-5l-4OM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="changeUserImgBtn" destination="Vk5-xd-BOV" id="FSk-LT-ppa"/>
-                        <outlet property="descriptionLbl" destination="rbk-mz-uOv" id="Zm4-Zm-KSw"/>
                         <outlet property="editBtn" destination="plk-l5-4iM" id="qoy-T2-m2o"/>
-                        <outlet property="nameLbl" destination="WZf-Cx-COP" id="t3F-gO-Udg"/>
+                        <outlet property="gcdBtn" destination="Q4F-gt-uH3" id="NAn-8k-8oB"/>
+                        <outlet property="operationBtn" destination="fsb-wF-4Xz" id="cxe-cd-2kF"/>
+                        <outlet property="saveBtnStack" destination="c9B-uP-2ey" id="lhJ-OB-gb9"/>
+                        <outlet property="spinner" destination="E4d-U4-VAt" id="zdu-gq-HaQ"/>
+                        <outlet property="userDescriptionTxtField" destination="uDm-Z6-WQr" id="BGl-SP-PO1"/>
                         <outlet property="userImg" destination="29y-qy-Jty" id="VoP-VH-ZeG"/>
+                        <outlet property="usernameTxtField" destination="EHm-Un-R8o" id="Au6-Ut-wzo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2033" y="969"/>
+            <point key="canvasLocation" x="2032.5" y="968.66197183098598"/>
         </scene>
         <!--Themes View Controller Swift-->
         <scene sceneID="lH4-A9-agr">
