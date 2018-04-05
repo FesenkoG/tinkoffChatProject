@@ -9,3 +9,8 @@
 import UIKit
 
 let bubbleWidth = (UIScreen.main.bounds.width * 3) / 4
+let messageHaveArrivedNotif = "messageHaveArrived"
+let didEnterBackgroundNotif = "didEnterBackground"
+let didLostUserNotif = "didLostUser"
+let didFoundUserNotif = "didFoundUser"
+let didSendMessageNotif = "didSendMessage"

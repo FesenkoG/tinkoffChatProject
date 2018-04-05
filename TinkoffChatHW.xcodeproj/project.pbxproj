@@ -19,7 +19,6 @@
 		665D7BF8206940DD00A0090C /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BF7206940DD00A0090C /* OperationDataManager.swift */; };
 		66805B37205436560061CDA0 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B36205436560061CDA0 /* Channel.swift */; };
 		66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B38205436D70061CDA0 /* ConversationCell.swift */; };
-		66805B3C20552B9E0061CDA0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B3B20552B9E0061CDA0 /* DataService.swift */; };
 		66805B3E20552E7B0061CDA0 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B3D20552E7B0061CDA0 /* ConversationsViewController.swift */; };
 		66805B4120553E3B0061CDA0 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B4020553E3B0061CDA0 /* ConversationViewController.swift */; };
 		66805B4320553FCF0061CDA0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B4220553FCF0061CDA0 /* Message.swift */; };
@@ -32,6 +31,7 @@
 		66BA93CD2042F33700C08154 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BA93CB2042F33700C08154 /* LaunchScreen.storyboard */; };
 		66BA93D520431ECF00C08154 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93D420431ECF00C08154 /* Functions.swift */; };
 		66D104D7206B9B430043C452 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D104D6206B9B430043C452 /* Extensions.swift */; };
+		66D264C5207019B000301B7E /* MultipeerCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D264C4207019AF00301B7E /* MultipeerCommunicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,7 +51,6 @@
 		665D7BF7206940DD00A0090C /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
 		66805B36205436560061CDA0 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		66805B38205436D70061CDA0 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
-		66805B3B20552B9E0061CDA0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		66805B3D20552E7B0061CDA0 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		66805B4020553E3B0061CDA0 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		66805B4220553FCF0061CDA0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 		66BA93CE2042F33700C08154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66BA93D420431ECF00C08154 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		66D104D6206B9B430043C452 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		66D264C4207019AF00301B7E /* MultipeerCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerCommunicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,9 +125,9 @@
 		66805B3A20552B900061CDA0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				66805B3B20552B9E0061CDA0 /* DataService.swift */,
 				665D7BF52069408E00A0090C /* GCDataManager.swift */,
 				665D7BF7206940DD00A0090C /* OperationDataManager.swift */,
+				66D264C4207019AF00301B7E /* MultipeerCommunicator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -260,7 +260,6 @@
 				665D7BF62069408E00A0090C /* GCDataManager.swift in Sources */,
 				66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */,
 				665D7BCB206037D500A0090C /* ThemesViewControllerSwift.swift in Sources */,
-				66805B3C20552B9E0061CDA0 /* DataService.swift in Sources */,
 				66805B37205436560061CDA0 /* Channel.swift in Sources */,
 				66D104D7206B9B430043C452 /* Extensions.swift in Sources */,
 				665D7BC9205FD6A500A0090C /* Themes.m in Sources */,
@@ -270,6 +269,7 @@
 				66805B4120553E3B0061CDA0 /* ConversationViewController.swift in Sources */,
 				66805B47205592220061CDA0 /* OutgoingCell.swift in Sources */,
 				66805B4320553FCF0061CDA0 /* Message.swift in Sources */,
+				66D264C5207019B000301B7E /* MultipeerCommunicator.swift in Sources */,
 				66BA93C32042F33700C08154 /* AppDelegate.swift in Sources */,
 				665D7BF8206940DD00A0090C /* OperationDataManager.swift in Sources */,
 				66BA93D520431ECF00C08154 /* Functions.swift in Sources */,
@@ -348,7 +348,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -399,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

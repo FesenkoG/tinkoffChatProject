@@ -49,6 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Application is still in \(state): \(#function)")
         }
         prevState = state
+        
+        NotificationCenter.default.post(name: Notification.Name.init(didEnterBackgroundNotif), object: nil)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

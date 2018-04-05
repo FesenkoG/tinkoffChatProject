@@ -10,34 +10,37 @@ import UIKit
 
 class ConversationsViewController: UITableViewController {
     
+    
+    let communicator = MultipeerCommunicator()
+    var data = [Channel]()
     var sortedData = [Int: [Channel]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Получаем данные из источника и делим их по секциям: 0 - online, 1 - history.
-        sortedData[0] = DataService.instance.getData().filter({$0.online == true})
-        sortedData[1] = DataService.instance.getData().filter({$0.online == false && $0.message != nil})
-        //Сортируем диалоги в хронологическим порядке по дате последнего сообщения.
-        sortedData[0]?.sort(by: { (first, second) -> Bool in
-            if first.date == nil {
-                return false
-            }
-            if let date1 = first.date, let date2 = second.date {
-                return date1 > date2
-            }
-            return true
-        })
-        sortedData[1]?.sort(by: { (first, second) -> Bool in
-            if first.date == nil {
-                return false
-            }
-            if let date1 = first.date, let date2 = second.date {
-                return date1 > date2
-            }
-            return true
-        })
+        communicator.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: Notification.Name(rawValue: didEnterBackgroundNotif), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeLastMessage), name: NSNotification.Name.init(didSendMessageNotif), object: nil)
+        
     }
     
+    @objc func didEnterBackground(_ notif: Notification) {
+        data.removeAll()
+        sortedData.removeAll()
+        communicator.sessions.removeAll()
+        tableView.reloadData()
+    }
+    
+    @objc func changeLastMessage(_ notif: Notification) {
+        guard let text = notif.object as? String else { return }
+        for index in 0..<data.count {
+            data[index].message = text
+            data[index].date = Date()
+        }
+        sortData()
+        self.tableView.reloadData()
+    }
     @IBAction func themesBtnWasPressed(_ sender: Any) {
         performSegue(withIdentifier: "toThemes", sender: nil)
     }
@@ -80,6 +83,7 @@ class ConversationsViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let convVC = segue.destination as? ConversationViewController {
             convVC.initView(channel: sender as! Channel)
+            convVC.manager = communicator
         } else if let themesVC = segue.destination as? ThemesViewController {
             themesVC.delegate = self
         } else if let themesVC = segue.destination as? ThemesViewControllerSwift {
@@ -110,19 +114,96 @@ extension ConversationsViewController: ThemesViewControllerDelegate {
     }
 }
 
-extension UserDefaults {
-    func setColor(color: UIColor?, forKey key: String) {
-        var colorData: NSData?
-        if let color = color {
-            colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData?
+extension ConversationsViewController: CommunicatorDelegate {
+    func didFoundUser(userID: String, userName: String?) {
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: didFoundUserNotif), object: userID)
+        let channel = Channel(name: userName, message: nil, date: nil, online: true, hasUnreadMessages: false, userId: userID)
+        data.append(channel)
+        sortData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
-        set(colorData, forKey: key)
     }
-    func colorForKey(key: String) -> UIColor? {
-        var color: UIColor?
-        if let colorData = data(forKey: key) {
-            color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
+    
+    func didLostUser(userID: String) {
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: didLostUserNotif), object: userID)
+        communicator.sessions.removeValue(forKey: userID)
+        var i = -1
+        for index in 0..<data.count {
+            if data[index].userId == userID {
+                i = index
+            }
         }
-        return color
+        if i != -1 {
+            data.remove(at: i)
+        }
+        
+        sortData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
+    
+    func failedToStartBrowsingForUsers(error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func failedToStartAdvertising(error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func didRecieveMessage(text: String, fromUser: String, toUser: String) {
+        let dataToSend = ["text": text, "fromUser": fromUser, "toUser": toUser]
+        NotificationCenter.default.post(name: .init(rawValue: messageHaveArrivedNotif), object: dataToSend)
+        
+        for index in 0..<data.count {
+            if data[index].userId == fromUser {
+                data[index].message = text
+                data[index].date = Date()
+            }
+        }
+        sortData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+        
+    }
+    
+    func sortData() {
+        
+        sortedData[0] = data.filter({$0.online == true && $0.date != nil})
+        sortedData[1] = data.filter({$0.online == false && $0.message != nil})
+        //Сортируем диалоги в хронологическим порядке по дате последнего сообщения.
+        var dataWithoutTime = data.filter({$0.online == true && $0.date == nil})
+        sortedData[0]?.sort(by: { (first, second) -> Bool in
+            if first.date == nil {
+                return false
+            }
+            if let date1 = first.date, let date2 = second.date {
+                return date1 > date2
+            }
+            return true
+        })
+        sortedData[1]?.sort(by: { (first, second) -> Bool in
+            if first.date == nil {
+                return false
+            }
+            if let date1 = first.date, let date2 = second.date {
+                return date1 > date2
+            }
+            return true
+        })
+        //Сортируем те диалоги, у которых нет сообщений
+        dataWithoutTime.sort { (first, second) -> Bool in
+            guard let leftName = first.name, let rightName = second.name else { return false}
+            if leftName > rightName {
+                return true
+            }
+            return false
+        }
+        //Добавляем их в конец
+        sortedData[0]?.append(contentsOf: dataWithoutTime)
+    }
+    
 }

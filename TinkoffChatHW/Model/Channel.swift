@@ -15,7 +15,7 @@ struct Channel: ConversationCellConfiguration {
     var date: Date?
     var online: Bool
     var hasUnreadMessages: Bool
-    
+    var userId: String
 }
 
 protocol ConversationCellConfiguration {

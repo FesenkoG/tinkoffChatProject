@@ -60,11 +60,10 @@ class ProfileViewController: UIViewController {
     
     @objc func keyboardWillShow(notification:NSNotification) {
         var userInfo = notification.userInfo!
-        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
         let keyboardHeight = keyboardFrame.height
         let newFrame = CGRect(x: 0, y: -keyboardHeight, width: self.view.frame.width, height: self.view.frame.height)
-        
         UIView.animate(withDuration: animationDurarion) {
             self.view.frame = newFrame
         }
@@ -79,6 +78,7 @@ class ProfileViewController: UIViewController {
         UIView.animate(withDuration: animationDurarion) {
             self.view.frame = newFrame
         }
+        
     }
     
     @IBAction func editBtnWasPressed(_ sender: Any) {
