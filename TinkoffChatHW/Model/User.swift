@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct User {
+    var name: String
+    var descr: String
+    var image: UIImage
+}

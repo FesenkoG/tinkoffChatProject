@@ -21,8 +21,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var changeUserImgBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
     
-    let imagePicker = UIImagePickerController()
-    var dataManager: DataManipulationProtocol?
+    lazy var imagePicker = UIImagePickerController()
     
     private var currentUserName = ""
     private var currentUserDescription = ""
@@ -32,30 +31,32 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         changeUserImgBtn.isHidden = true
-        if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text {
+        if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text, let image = userImg.image {
             currentUserName = name
             currentUserDescription = descr
+            currentUserImage = image
         }
         
         self.hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        imagePicker.delegate = self
+        
         self.spinner.isHidden = true
-        dataManager = GCDDataManager()
-        dataManager?.retrieveData(handler: { (success, data) in
-            if success, let data = data {
-                self.usernameTxtField.text = data["name"] as? String
-                self.userDescriptionTxtField.text = data["description"] as! String
-                let imageData = Data(base64Encoded: data["image"] as! String)
-                self.userImg.image = UIImage(data: imageData!)
-                self.currentUserDescription = data["description"]! as! String
-                self.currentUserName = data["name"]! as! String
-                self.currentUserImage = self.userImg.image!
-                self.disableInteraction()
+        StorageManager.retrieveData { (result) in
+            switch result {
+            case .Success(let user):
+                self.userImg.image = user.image
+                self.usernameTxtField.text = user.name
+                self.userDescriptionTxtField.text = user.descr
+                
+                self.currentUserName = user.name
+                self.currentUserDescription = user.descr
+                self.currentUserImage = user.image
+            case .Failure(let message):
+                print(message)
             }
-        })
+        }
     }
     
     @objc func keyboardWillShow(notification:NSNotification) {
@@ -87,14 +88,6 @@ class ProfileViewController: UIViewController {
     
     @IBAction func saveBtnWasPressed(_ sender: RoundedButton) {
         
-        switch (sender.titleLabel?.text)! {
-        case "Operation":
-            dataManager = OperationDataManager()
-        case "GCD":
-            dataManager = GCDDataManager()
-        default:
-            print("this is not the case")
-        }
         if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text, let image = userImg.image, (name != currentUserName || descr != currentUserDescription || image != currentUserImage) {
             spinner.isHidden = false
             spinner.startAnimating()
@@ -103,17 +96,20 @@ class ProfileViewController: UIViewController {
             gcdBtn.isEnabled = false
             changeUserImgBtn.isEnabled = false
             //
-            let imageData = UIImageJPEGRepresentation(image, 1.0)
-            dataManager?.saveData(name: name, descr: descr, imageData: imageData!, handler: { (success) in
+            let user = User(name: name, descr: descr, image: image)
+            StorageManager.saveData(user: user) { (success) in
                 self.spinner.stopAnimating()
                 self.spinner.isHidden = true
                 //Включить кнопки
                 self.operationBtn.isEnabled = true
                 self.gcdBtn.isEnabled = true
                 self.changeUserImgBtn.isEnabled = true
-                //
+
                 if success {
                     self.dataHaveBeenSaved()
+                    self.currentUserName = user.name
+                    self.currentUserDescription = user.descr
+                    self.currentUserImage = user.image
                 } else {
                     let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
                     let actionOk = UIAlertAction(title: "Ок", style: UIAlertActionStyle.default, handler: { (action) in
@@ -123,7 +119,7 @@ class ProfileViewController: UIViewController {
                     let actionRepeat = UIAlertAction(title: "Повторить", style: UIAlertActionStyle.default, handler: { (action) in
                         self.spinner.isHidden = false
                         self.spinner.startAnimating()
-                        self.dataManager?.saveData(name: name, descr: descr, imageData: imageData!, handler: { (success) in
+                        StorageManager.saveData(user: user, completionHandler: { (success) in
                             self.spinner.stopAnimating()
                             self.spinner.isHidden = true
                             if success {
@@ -137,13 +133,14 @@ class ProfileViewController: UIViewController {
                     alert.addAction(actionRepeat)
                     self.present(alert, animated: true, completion: nil)
                 }
-            })
+            }
         }
         
     }
     
     
     @IBAction func changeUserImgBtnWasPressed(_ sender: Any) {
+        imagePicker.delegate = self
         let changeUserImage = UIAlertController(title: "Выбрать фотографию", message: "Как бы вы хотели выбрать фотографию для своего профиля?", preferredStyle: .actionSheet)
         let galleryAction = UIAlertAction(title: "Взять из галереи", style: .default) { (buttonTapped) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -203,19 +200,7 @@ class ProfileViewController: UIViewController {
     private func dataHaveBeenSaved() {
         let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Ок", style: .default, handler: { (action) in
-            self.dataManager?.retrieveData(handler: { (success, data) in
-                if success, let data = data {
-                    self.usernameTxtField.text = data["name"] as? String
-                    self.userDescriptionTxtField.text = data["description"] as! String
-                    
-                    let imageData = Data(base64Encoded: data["image"] as! String)
-                    self.userImg.image = UIImage(data: imageData!)
-                    self.currentUserDescription = data["description"]! as! String
-                    self.currentUserName = data["name"]! as! String
-                    self.currentUserImage = self.userImg.image!
-                    self.disableInteraction()
-                }
-            })
+            self.disableInteraction()
         })
         
         alert.addAction(action)

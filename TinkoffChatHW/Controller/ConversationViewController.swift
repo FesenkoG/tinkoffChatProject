@@ -113,7 +113,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         inputTextField.endEditing(true)
     }
-    func initView(channel: Channel) {
+    func initView(channel: Conversation) {
         navigationItem.title = channel.name
         self.userId = channel.userId
     }

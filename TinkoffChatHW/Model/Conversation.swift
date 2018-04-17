@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Channel: ConversationCellConfiguration {
+struct Conversation: ConversationCellConfiguration {
     
     var name: String?
     var message: String?

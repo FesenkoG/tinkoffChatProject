@@ -23,7 +23,7 @@ class ConversationCell: UITableViewCell {
         lastMessageLbl.font = UIFont.systemFont(ofSize: 17)
     }
     
-    func configureCell(channel: Channel) {
+    func configureCell(channel: Conversation) {
         nameLbl.text = channel.name
         
         if let lastMessage = channel.message {

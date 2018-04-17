@@ -40,7 +40,7 @@ class MultipeerCommunicator: NSObject, Communicator {
         do {
             if let session = sessions[userID] {
                 let id = generateMessageId()
-                let data = try JSONSerialization.data(withJSONObject: ["eventType": "TextMessage", "text": string, "messageId": id], options: .prettyPrinted)
+                let data = try JSONSerialization.data(withJSONObject: ["eventType": "TextMessage", "text": string, "messageId": id], options: [])
                 try session.send(data, toPeers: session.connectedPeers, with: MCSessionSendDataMode.reliable)
                 completionHandler?(true, nil)
             } else {

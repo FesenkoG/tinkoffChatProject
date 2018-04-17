@@ -12,8 +12,8 @@ class ConversationsViewController: UITableViewController {
     
     
     let communicator = MultipeerCommunicator()
-    var data = [Channel]()
-    var sortedData = [Int: [Channel]]()
+    var data = [Conversation]()
+    var sortedData = [Int: [Conversation]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +82,7 @@ class ConversationsViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let convVC = segue.destination as? ConversationViewController {
-            convVC.initView(channel: sender as! Channel)
+            convVC.initView(channel: sender as! Conversation)
             convVC.manager = communicator
         } else if let themesVC = segue.destination as? ThemesViewController {
             themesVC.delegate = self
@@ -117,7 +117,7 @@ extension ConversationsViewController: ThemesViewControllerDelegate {
 extension ConversationsViewController: CommunicatorDelegate {
     func didFoundUser(userID: String, userName: String?) {
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: didFoundUserNotif), object: userID)
-        let channel = Channel(name: userName, message: nil, date: nil, online: true, hasUnreadMessages: false, userId: userID)
+        let channel = Conversation(name: userName, message: nil, date: nil, online: true, hasUnreadMessages: false, userId: userID)
         data.append(channel)
         sortData()
         DispatchQueue.main.async {
