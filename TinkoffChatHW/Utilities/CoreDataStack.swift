@@ -37,23 +37,23 @@ class CoreDataStack {
         return coordinator
     }()
     
-    lazy var masterContext: NSManagedObjectContext = {
-        let masterContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        masterContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        masterContext.mergePolicy = NSOverwriteMergePolicy
-        return masterContext
-    }()
-    
-    lazy var mainContext: NSManagedObjectContext = {
-        let mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        mainContext.parent = self.masterContext
-        mainContext.mergePolicy = NSOverwriteMergePolicy
-        return mainContext
-    }()
+//    lazy var masterContext: NSManagedObjectContext = {
+//        let masterContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+//        masterContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+//        masterContext.mergePolicy = NSOverwriteMergePolicy
+//        return masterContext
+//    }()
+//
+//    lazy var mainContext: NSManagedObjectContext = {
+//        let mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+//        mainContext.parent = self.masterContext
+//        mainContext.mergePolicy = NSOverwriteMergePolicy
+//        return mainContext
+//    }()
     
     lazy var saveContext: NSManagedObjectContext = {
-        let saveContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        saveContext.parent = self.mainContext
+        let saveContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        saveContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         saveContext.mergePolicy = NSOverwriteMergePolicy
         return saveContext
     }()

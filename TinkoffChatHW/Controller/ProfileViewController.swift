@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     
     lazy var imagePicker = UIImagePickerController()
+    var storageManager: StorageManager!
     
     private var currentUserName = ""
     private var currentUserDescription = ""
@@ -43,7 +44,7 @@ class ProfileViewController: UIViewController {
         
         
         self.spinner.isHidden = true
-        StorageManager.retrieveData { (result) in
+        storageManager.retrieveData { (result) in
             switch result {
             case .Success(let user):
                 self.userImg.image = user.image
@@ -96,8 +97,8 @@ class ProfileViewController: UIViewController {
             gcdBtn.isEnabled = false
             changeUserImgBtn.isEnabled = false
             //
-            let user = User(name: name, descr: descr, image: image)
-            StorageManager.saveData(user: user) { (success) in
+            let user = UserInApp(name: name, descr: descr, image: image)
+            storageManager.saveData(user: user) { (success) in
                 self.spinner.stopAnimating()
                 self.spinner.isHidden = true
                 //Включить кнопки
@@ -119,7 +120,7 @@ class ProfileViewController: UIViewController {
                     let actionRepeat = UIAlertAction(title: "Повторить", style: UIAlertActionStyle.default, handler: { (action) in
                         self.spinner.isHidden = false
                         self.spinner.startAnimating()
-                        StorageManager.saveData(user: user, completionHandler: { (success) in
+                        self.storageManager.saveData(user: user, completionHandler: { (success) in
                             self.spinner.stopAnimating()
                             self.spinner.isHidden = true
                             if success {

@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct Conversation: ConversationCellConfiguration {
+struct ConversationInApp: ConversationCellConfiguration {
     
     var name: String?
     var message: String?
     var date: Date?
     var online: Bool
     var hasUnreadMessages: Bool
-    var userId: String
+    var userId: String?
 }
 
 protocol ConversationCellConfiguration {

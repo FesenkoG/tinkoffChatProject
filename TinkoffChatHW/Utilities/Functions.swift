@@ -22,3 +22,7 @@ func convertState(state: UIApplicationState) -> String {
 func generateMessageId() -> String {
     return "\(arc4random_uniform(UINT32_MAX))+\(Date.timeIntervalSinceReferenceDate)".data(using: .utf8)!.base64EncodedString()
 }
+
+func generateConversationId(fromUserId userId: String) -> String {
+    return userId
+}
