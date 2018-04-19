@@ -17,7 +17,7 @@
 		665D7BF420693FF700A0090C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BF320693FF700A0090C /* Protocols.swift */; };
 		665D7BF62069408E00A0090C /* GCDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BF52069408E00A0090C /* GCDataManager.swift */; };
 		665D7BF8206940DD00A0090C /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BF7206940DD00A0090C /* OperationDataManager.swift */; };
-		66805B37205436560061CDA0 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B36205436560061CDA0 /* Conversation.swift */; };
+		66805B37205436560061CDA0 /* ConversationInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B36205436560061CDA0 /* ConversationInApp.swift */; };
 		66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B38205436D70061CDA0 /* ConversationCell.swift */; };
 		66805B3E20552E7B0061CDA0 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B3D20552E7B0061CDA0 /* ConversationsViewController.swift */; };
 		66805B4120553E3B0061CDA0 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66805B4020553E3B0061CDA0 /* ConversationViewController.swift */; };
@@ -35,7 +35,7 @@
 		66D264EA207D036F00301B7E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D264E9207D036F00301B7E /* CoreDataStack.swift */; };
 		66D264F0207D03F400301B7E /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66D264EE207D03F400301B7E /* CoreDataModel.xcdatamodeld */; };
 		66D264F2207D059B00301B7E /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D264F1207D059B00301B7E /* StorageManager.swift */; };
-		66D264F4207D4BFA00301B7E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D264F3207D4BFA00301B7E /* User.swift */; };
+		66D264F4207D4BFA00301B7E /* UserInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D264F3207D4BFA00301B7E /* UserInApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,7 @@
 		665D7BF320693FF700A0090C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		665D7BF52069408E00A0090C /* GCDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDataManager.swift; sourceTree = "<group>"; };
 		665D7BF7206940DD00A0090C /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
-		66805B36205436560061CDA0 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		66805B36205436560061CDA0 /* ConversationInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationInApp.swift; sourceTree = "<group>"; };
 		66805B38205436D70061CDA0 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		66805B3D20552E7B0061CDA0 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		66805B4020553E3B0061CDA0 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 		66D264E9207D036F00301B7E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		66D264EF207D03F400301B7E /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		66D264F1207D059B00301B7E /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
-		66D264F3207D4BFA00301B7E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		66D264F3207D4BFA00301B7E /* UserInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,12 +122,12 @@
 		66805B35205435F90061CDA0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				66805B36205436560061CDA0 /* Conversation.swift */,
+				66805B36205436560061CDA0 /* ConversationInApp.swift */,
 				66805B4220553FCF0061CDA0 /* Message.swift */,
 				665D7BC5205FB9E700A0090C /* Themes.h */,
 				665D7BC8205FD6A500A0090C /* Themes.m */,
 				665D7BCC2062498F00A0090C /* ThemesSwift.swift */,
-				66D264F3207D4BFA00301B7E /* User.swift */,
+				66D264F3207D4BFA00301B7E /* UserInApp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -265,7 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66D264F4207D4BFA00301B7E /* User.swift in Sources */,
+				66D264F4207D4BFA00301B7E /* UserInApp.swift in Sources */,
 				66805B3E20552E7B0061CDA0 /* ConversationsViewController.swift in Sources */,
 				66D264EA207D036F00301B7E /* CoreDataStack.swift in Sources */,
 				66D264F2207D059B00301B7E /* StorageManager.swift in Sources */,
@@ -275,7 +275,7 @@
 				665D7BF62069408E00A0090C /* GCDataManager.swift in Sources */,
 				66805B39205436D70061CDA0 /* ConversationCell.swift in Sources */,
 				665D7BCB206037D500A0090C /* ThemesViewControllerSwift.swift in Sources */,
-				66805B37205436560061CDA0 /* Conversation.swift in Sources */,
+				66805B37205436560061CDA0 /* ConversationInApp.swift in Sources */,
 				66D104D7206B9B430043C452 /* Extensions.swift in Sources */,
 				665D7BC9205FD6A500A0090C /* Themes.m in Sources */,
 				665D7BF420693FF700A0090C /* Protocols.swift in Sources */,

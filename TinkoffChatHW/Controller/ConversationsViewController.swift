@@ -7,87 +7,123 @@
 //
 
 import UIKit
+import CoreData
 
 class ConversationsViewController: UITableViewController {
     
     
     let communicator = MultipeerCommunicator()
-    var data = [Conversation]()
-    var sortedData = [Int: [Conversation]]()
+    let storageManager = StorageManager()
+    var conversationsController: NSFetchedResultsController<Conversation>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         communicator.delegate = self
+        conversationsController = storageManager.createFRCForConversations()
+        conversationsController.delegate = self
+
+        
+        do {
+            try conversationsController.performFetch()
+        } catch {
+            print(error)
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: Notification.Name(rawValue: didEnterBackgroundNotif), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changeLastMessage), name: NSNotification.Name.init(didSendMessageNotif), object: nil)
         
     }
     
     @objc func didEnterBackground(_ notif: Notification) {
-        data.removeAll()
-        sortedData.removeAll()
+        storageManager.setAllConversationsOffline()
         communicator.sessions.removeAll()
         tableView.reloadData()
     }
     
-    @objc func changeLastMessage(_ notif: Notification) {
-        guard let text = notif.object as? String else { return }
-        for index in 0..<data.count {
-            data[index].message = text
-            data[index].date = Date()
-        }
-        sortData()
-        self.tableView.reloadData()
-    }
     @IBAction func themesBtnWasPressed(_ sender: Any) {
         performSegue(withIdentifier: "toThemes", sender: nil)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        guard let sections = conversationsController.sections else {
+            return 0
+        }
+        
+        return sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let data = sortedData[section] {
-            return data.count
-        }
-        return 0
+        guard let sectionInfo = conversationsController.sections?[section] else { return 0 }
+        return sectionInfo.numberOfObjects
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell") as? ConversationCell else { return UITableViewCell() }
-        guard let channel = sortedData[indexPath.section]?[indexPath.row] else { return UITableViewCell() }
+        let conversation = conversationsController.object(at: indexPath)
+        var dateOfLastMessage: Date?
+        var lastMessage: String?
+        if let numberOfMessages = conversation.messages?.count, numberOfMessages > 0 {
+            lastMessage = (conversation.messages?[numberOfMessages - 1] as! Message).text
+            dateOfLastMessage = (conversation.messages?[numberOfMessages - 1] as! Message).date
+        }
+        let name = conversation.sender?.name
+        let online = (conversation.isOnline)
+        let channel = ConversationInApp(name: name, message: lastMessage, date: dateOfLastMessage, online: online, hasUnreadMessages: false, userId: nil)
         cell.configureCell(channel: channel)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Online"
-        } else {
+        let sectionInfo = conversationsController.sections?[section]
+        if let name = sectionInfo?.name, name == "0" {
             return "History"
+        } else {
+            return "Online"
         }
     }
     
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let channel = sortedData[indexPath.section]?[indexPath.row] else { return }
+        guard let name = conversationsController.object(at: indexPath).sender?.name else { return }
+        guard let userId = conversationsController.object(at: indexPath).sender?.userId else {
+            return
+        }
+        let channel = ConversationInApp(name: name, message: nil, date: nil, online: false, hasUnreadMessages: false, userId: userId)
         performSegue(withIdentifier: "ToChat", sender: channel)
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let conversation = conversationsController.object(at: indexPath)
+            if let id = conversation.sender?.userId {
+                communicator.sessions.removeValue(forKey: id)
+                if let messages = conversation.messages {
+                    conversation.removeFromMessages(messages)
+                }
+                storageManager.userBecameInactive(userId: id)
+            }
+            
+        }
     }
     
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let convVC = segue.destination as? ConversationViewController {
-            convVC.initView(channel: sender as! Conversation)
+            convVC.initView(channel: sender as! ConversationInApp)
             convVC.manager = communicator
+            convVC.storageManager = storageManager
         } else if let themesVC = segue.destination as? ThemesViewController {
             themesVC.delegate = self
         } else if let themesVC = segue.destination as? ThemesViewControllerSwift {
             themesVC.closure = { themeChanged }()
+        } else if let profileVC = segue.destination as? ProfileViewController {
+            profileVC.storageManager = storageManager
         }
     }
     func logThemeChanging(selectedTheme: UIColor) {
@@ -116,32 +152,17 @@ extension ConversationsViewController: ThemesViewControllerDelegate {
 
 extension ConversationsViewController: CommunicatorDelegate {
     func didFoundUser(userID: String, userName: String?) {
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: didFoundUserNotif), object: userID)
-        let channel = Conversation(name: userName, message: nil, date: nil, online: true, hasUnreadMessages: false, userId: userID)
-        data.append(channel)
-        sortData()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        
+        storageManager.insertOrUpdateConversationWithUser(userId: userID, userName: userName!) { (success) in
+            if success {
+                print("good")
+            }
         }
     }
     
     func didLostUser(userID: String) {
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: didLostUserNotif), object: userID)
         communicator.sessions.removeValue(forKey: userID)
-        var i = -1
-        for index in 0..<data.count {
-            if data[index].userId == userID {
-                i = index
-            }
-        }
-        if i != -1 {
-            data.remove(at: i)
-        }
-        
-        sortData()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        storageManager.userBecameInactive(userId: userID)
     }
     
     func failedToStartBrowsingForUsers(error: Error) {
@@ -153,57 +174,71 @@ extension ConversationsViewController: CommunicatorDelegate {
     }
     
     func didRecieveMessage(text: String, fromUser: String, toUser: String) {
-        let dataToSend = ["text": text, "fromUser": fromUser, "toUser": toUser]
-        NotificationCenter.default.post(name: .init(rawValue: messageHaveArrivedNotif), object: dataToSend)
         
-        for index in 0..<data.count {
-            if data[index].userId == fromUser {
-                data[index].message = text
-                data[index].date = Date()
+        storageManager.saveNewMessageInConversation(conversationId: generateConversationId(fromUserId: fromUser), text: text, isIncoming: true) { (success) in
+            if success {
+                print("Good")
             }
         }
-        sortData()
+    }
+    
+    
+}
+
+extension ConversationsViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.tableView.beginUpdates()
         }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
+        DispatchQueue.main.async {
+            switch type {
+            case .insert:
+                self.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            case .delete:
+                self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            case .update:
+                guard let cell = self.tableView.cellForRow(at: indexPath!) as? ConversationCell else { return }
+                let conversation = self.conversationsController.object(at: indexPath!)
+                var dateOfLastMessage: Date?
+                var lastMessage: String?
+                if let numberOfMessages = conversation.messages?.count, numberOfMessages > 0 {
+                    lastMessage = (conversation.messages?[numberOfMessages - 1] as! Message).text
+                    dateOfLastMessage = (conversation.messages?[numberOfMessages - 1] as! Message).date
+                }
+                let name = conversation.sender?.name
+                let online = conversation.isOnline
+                let channel = ConversationInApp(name: name, message: lastMessage, date: dateOfLastMessage, online: online, hasUnreadMessages: false, userId: nil)
+                cell.configureCell(channel: channel)
+                
+            case .move:
+                self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+                self.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            }
+        }
         
     }
     
-    func sortData() {
-        
-        sortedData[0] = data.filter({$0.online == true && $0.date != nil})
-        sortedData[1] = data.filter({$0.online == false && $0.message != nil})
-        //Сортируем диалоги в хронологическим порядке по дате последнего сообщения.
-        var dataWithoutTime = data.filter({$0.online == true && $0.date == nil})
-        sortedData[0]?.sort(by: { (first, second) -> Bool in
-            if first.date == nil {
-                return false
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        DispatchQueue.main.async {
+            let indexSet = IndexSet(integer: sectionIndex)
+            switch type {
+            case .insert:
+                self.tableView.insertSections(indexSet, with: .automatic)
+            case .delete:
+                self.tableView.deleteSections(indexSet, with: .automatic)
+            default: break
             }
-            if let date1 = first.date, let date2 = second.date {
-                return date1 > date2
-            }
-            return true
-        })
-        sortedData[1]?.sort(by: { (first, second) -> Bool in
-            if first.date == nil {
-                return false
-            }
-            if let date1 = first.date, let date2 = second.date {
-                return date1 > date2
-            }
-            return true
-        })
-        //Сортируем те диалоги, у которых нет сообщений
-        dataWithoutTime.sort { (first, second) -> Bool in
-            guard let leftName = first.name, let rightName = second.name else { return false}
-            if leftName > rightName {
-                return true
-            }
-            return false
         }
-        //Добавляем их в конец
-        sortedData[0]?.append(contentsOf: dataWithoutTime)
     }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.tableView.endUpdates()
+        }
+    }
+    
     
 }

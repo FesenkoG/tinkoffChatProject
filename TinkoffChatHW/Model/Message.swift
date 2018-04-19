@@ -6,15 +6,15 @@
 //  Copyright © 2018 Georgy. All rights reserved.
 //
 
-import Foundation
-
-struct Message: MessageCellConfiguration {
-    
-    var text: String?
-    var isIncoming: Bool
-}
-
-protocol MessageCellConfiguration {
-    var text: String? { get set }
-    var isIncoming: Bool { get set }
-}
+//import Foundation
+//
+//struct Message: MessageCellConfiguration {
+//    
+//    var text: String?
+//    var isIncoming: Bool
+//}
+//
+//protocol MessageCellConfiguration {
+//    var text: String? { get set }
+//    var isIncoming: Bool { get set }
+//}

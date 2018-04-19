@@ -23,7 +23,7 @@ class ConversationCell: UITableViewCell {
         lastMessageLbl.font = UIFont.systemFont(ofSize: 17)
     }
     
-    func configureCell(channel: Conversation) {
+    func configureCell(channel: ConversationInApp) {
         nameLbl.text = channel.name
         
         if let lastMessage = channel.message {
@@ -35,6 +35,7 @@ class ConversationCell: UITableViewCell {
             }
             
             if let date = channel.date {
+                dateOfLastMessageLbl.isHidden = false
                 let currentDate = Date()
                 let calendar = Calendar.current
                 

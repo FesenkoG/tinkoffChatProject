@@ -87,13 +87,18 @@ extension MultipeerCommunicator: MCNearbyServiceAdvertiserDelegate {
     }
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
-        delegate?.failedToStartAdvertising(error: error)
+        DispatchQueue.main.async {
+            self.delegate?.failedToStartAdvertising(error: error)
+        }
+        
     }
 }
 
 extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
-        delegate?.failedToStartBrowsingForUsers(error: error)
+        DispatchQueue.main.async {
+            self.delegate?.failedToStartBrowsingForUsers(error: error)
+        }
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
@@ -108,7 +113,9 @@ extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
                     
                     sessions[peerID.displayName] = session
                     browser.invitePeer(peerID, to: session, withContext: nil, timeout: 30)
-                    delegate?.didFoundUser(userID: peerID.displayName, userName: userName)
+                    DispatchQueue.main.async {
+                        self.delegate?.didFoundUser(userID: peerID.displayName, userName: userName)
+                    }
                 }
             }
         }
@@ -116,8 +123,9 @@ extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         sessions.removeValue(forKey: peerID.displayName)
-        delegate?.didLostUser(userID: peerID.displayName)
-        print(peerID.displayName)
+        DispatchQueue.main.async {
+            self.delegate?.didLostUser(userID: peerID.displayName)
+        }
     }
 }
 
@@ -135,7 +143,9 @@ extension MultipeerCommunicator: MCSessionDelegate {
             let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: String]
             
             if let text = json["text"] {
-                delegate?.didRecieveMessage(text: text, fromUser: peerID.displayName, toUser: myPeerId.displayName)
+                DispatchQueue.main.async {
+                    self.delegate?.didRecieveMessage(text: text, fromUser: peerID.displayName, toUser: self.myPeerId.displayName)
+                }
             }
             
         } catch {
