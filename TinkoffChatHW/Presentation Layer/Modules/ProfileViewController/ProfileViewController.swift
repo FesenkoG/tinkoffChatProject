@@ -21,8 +21,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var changeUserImgBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
     
-    lazy var imagePicker = UIImagePickerController()
-    var storageManager: StorageManager!
+    private lazy var imagePicker = UIImagePickerController()
+    var storageManager: IStorageModel!
     
     private var currentUserName = ""
     private var currentUserDescription = ""
@@ -31,33 +31,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        changeUserImgBtn.isHidden = true
-        if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text, let image = userImg.image {
-            currentUserName = name
-            currentUserDescription = descr
-            currentUserImage = image
-        }
+        hideKeyboardWhenTappedAround()
+        setupObservers()
+        currentDataInit()
+        initialRetrieve()
         
-        self.hideKeyboardWhenTappedAround()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        
-        self.spinner.isHidden = true
-        storageManager.retrieveData { (result) in
-            switch result {
-            case .Success(let user):
-                self.userImg.image = user.image
-                self.usernameTxtField.text = user.name
-                self.userDescriptionTxtField.text = user.descr
-                
-                self.currentUserName = user.name
-                self.currentUserDescription = user.descr
-                self.currentUserImage = user.image
-            case .Failure(let message):
-                print(message)
-            }
-        }
     }
     
     @objc func keyboardWillShow(notification:NSNotification) {
@@ -96,7 +74,7 @@ class ProfileViewController: UIViewController {
             operationBtn.isEnabled = false
             gcdBtn.isEnabled = false
             changeUserImgBtn.isEnabled = false
-            //
+            
             let user = UserInApp(name: name, descr: descr, image: image)
             storageManager.saveData(user: user) { (success) in
                 self.spinner.stopAnimating()
@@ -151,6 +129,7 @@ class ProfileViewController: UIViewController {
             }
             
         }
+        
         let photoAction = UIAlertAction(title: "Сделать фото", style: .default) { (buttonTapped) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 self.imagePicker.allowsEditing = false
@@ -160,12 +139,14 @@ class ProfileViewController: UIViewController {
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
         }
+        
         changeUserImage.addAction(galleryAction)
         changeUserImage.addAction(photoAction)
         present(changeUserImage, animated: true, completion: nil)
         
     }
     
+    //MARK: - Initial Setups
     private func configureView() {
         let radius = changeUserImgBtn.layer.frame.height / 2
         
@@ -174,8 +155,41 @@ class ProfileViewController: UIViewController {
         changeUserImgBtn.imageEdgeInsets = UIEdgeInsetsMake(20, 20, 20, 20)
         userImg.layer.cornerRadius = radius
         
+        changeUserImgBtn.isHidden = true
+        self.spinner.isHidden = true
     }
     
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    private func currentDataInit() {
+        if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text, let image = userImg.image {
+            currentUserName = name
+            currentUserDescription = descr
+            currentUserImage = image
+        }
+    }
+    
+    private func initialRetrieve() {
+        storageManager.retrieveData { (result) in
+            switch result {
+            case .Success(let user):
+                self.userImg.image = user.image
+                self.usernameTxtField.text = user.name
+                self.userDescriptionTxtField.text = user.descr
+                
+                self.currentUserName = user.name
+                self.currentUserDescription = user.descr
+                self.currentUserImage = user.image
+            case .Failure(let message):
+                print(message)
+            }
+        }
+    }
+    
+    //MARK: - Helpers
     private func enableInteraction() {
         self.saveBtnStack.isHidden = false
         self.editBtn.isHidden = true
@@ -197,7 +211,6 @@ class ProfileViewController: UIViewController {
         self.userDescriptionTxtField.layer.borderWidth = 0.0
         self.userDescriptionTxtField.layer.borderColor = UIColor.white.cgColor
     }
-    
     private func dataHaveBeenSaved() {
         let alert = UIAlertController(title: "Данные сохранены", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Ок", style: .default, handler: { (action) in
@@ -214,6 +227,7 @@ class ProfileViewController: UIViewController {
     }
 }
 
+//MARK: - Image Picker Delegate
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }

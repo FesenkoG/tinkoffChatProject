@@ -9,15 +9,24 @@
 import Foundation
 import CoreData
 
+//protocol ICoreDataStack {
+//
+//    var saveContext: NSManagedObjectContext { get }
+//    func findOrInsertAppUser(in context: NSManagedObjectContext) -> AppUser?
+//    func performSave(context: NSManagedObjectContext, completionHandler: ((Bool) -> Void)?)
+//    var managedObjectModel: NSManagedObjectModel { get }
+//}
+
+
 class CoreDataStack {
-    
+        
     lazy var storeUrl: URL = {
         let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return documentUrl.appendingPathComponent("MyStore.sqllite")
     }()
     
-    let dataModelName = "CoreDataModel"
-    let dataModelExtension = "momd"
+    private let dataModelName = "CoreDataModel"
+    private let dataModelExtension = "momd"
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         let modelUrl = Bundle.main.url(forResource: self.dataModelName, withExtension: self.dataModelExtension)!
@@ -57,6 +66,7 @@ class CoreDataStack {
         saveContext.mergePolicy = NSOverwriteMergePolicy
         return saveContext
     }()
+    
     
     public func performSave(context: NSManagedObjectContext, completionHandler: ((Bool) -> Void)?) {
         if context.hasChanges {

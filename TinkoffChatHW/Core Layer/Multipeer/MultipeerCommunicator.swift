@@ -9,7 +9,7 @@
 import Foundation
 import MultipeerConnectivity
 
-class MultipeerCommunicator: NSObject, Communicator {
+class MultipeerCommunicator: NSObject, ICommunicator {
     private let serviceType = "tinkoff-chat"
     
     let myPeerId = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
@@ -22,6 +22,9 @@ class MultipeerCommunicator: NSObject, Communicator {
     
     var sessions = [String: MCSession]()
     
+    func removeAllSessions() {
+        sessions.removeAll()
+    }
     
     override init() {
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: ["userName": UIDevice.current.name], serviceType: serviceType)
@@ -61,13 +64,8 @@ class MultipeerCommunicator: NSObject, Communicator {
 
 }
 
-protocol Communicator {
-    func sendMessage(string: String, to userID: String, completionHandler: ((_ success: Bool, _ error: Error?) -> ())?)
-    var delegate: CommunicatorDelegate? {get set}
-    var online: Bool {get set}
-}
-
 protocol CommunicatorDelegate: class {
+    
     //discovering
     func didFoundUser(userID: String, userName: String?)
     func didLostUser(userID: String)
@@ -80,6 +78,7 @@ protocol CommunicatorDelegate: class {
     func didRecieveMessage(text: String, fromUser: String, toUser: String)
 }
 
+//MARK: - AdvertiserDelegate
 extension MultipeerCommunicator: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         invitationHandler(true, sessions[peerID.displayName])
@@ -93,7 +92,7 @@ extension MultipeerCommunicator: MCNearbyServiceAdvertiserDelegate {
         
     }
 }
-
+//MARK: - BrowserDelegate
 extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         DispatchQueue.main.async {
@@ -129,6 +128,7 @@ extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
     }
 }
 
+//MARK: - Session Delegate
 extension MultipeerCommunicator: MCSessionDelegate {
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         

@@ -9,12 +9,27 @@
 import Foundation
 import CoreData
 
-class StorageManager {
+protocol IStorageManager {
+    func insertOrUpdateConversationWithUser(userId: String, userName: String, completionHandler: ((Bool) -> Void)?)
+    func saveNewMessageInConversation(conversationId: String, text:String, isIncoming: Bool, completionHandler: ((Bool) -> Void)?)
+    func userBecameInactive(userId: String)
+    func setAllConversationsOffline()
+    func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?)
+    func retrieveData(completionHandler: @escaping (Result) -> Void)
     
-    private let coreDataStack = CoreDataStack()
+}
+
+class StorageManager: IStorageManager {
+    
+    private let coreDataStack: CoreDataStack
+    
+    init(stack: CoreDataStack) {
+        self.coreDataStack = stack
+    }
     
     func insertOrUpdateConversationWithUser(userId: String, userName: String, completionHandler: ((Bool) -> Void)?) {
         //Проверить наличие такой беседы в бд
+        //Вынести создание реквеста и его выполнение в CoreDataStack
         var conversation = [Conversation]()
         let conversationId = generateConversationId(fromUserId: userId)
         guard let fetchRequestConversation = coreDataStack.managedObjectModel.fetchRequestFromTemplate(withName: "ConversationWithID", substitutionVariables: ["conversationId": conversationId]) as? NSFetchRequest<Conversation> else { return }
@@ -35,6 +50,7 @@ class StorageManager {
         } else {
             
             //Создать беседу и юзера в контексте
+            //Вынести создание беседы и юзера в CoreDataStack, а тут только сохранять
             guard let conv = NSEntityDescription.insertNewObject(forEntityName: "Conversation", into: coreDataStack.saveContext) as? Conversation else { return }
             guard let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: coreDataStack.saveContext) as? User else { return }
             

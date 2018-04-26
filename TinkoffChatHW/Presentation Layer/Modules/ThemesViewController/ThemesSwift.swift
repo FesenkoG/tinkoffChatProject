@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias GetTheme = (ThemesSwift.Theme) -> ()
+
 struct ThemesSwift {
     struct Theme {
         let barColor: UIColor

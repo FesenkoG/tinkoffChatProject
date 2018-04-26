@@ -10,7 +10,6 @@ import UIKit
 
 class ThemesViewControllerSwift: UIViewController {
     
-    typealias GetTheme = (ThemesSwift.Theme) -> ()
     var closure: GetTheme?
     var themes = ThemesSwift(theme1: ThemesSwift.Theme.init(barColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1), tintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), theme2: ThemesSwift.Theme.init(barColor: #colorLiteral(red: 0.2605174184, green: 0.2605243921, blue: 0.260520637, alpha: 1), tintColor: #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)), theme3: ThemesSwift.Theme.init(barColor: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1), tintColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)))
     
