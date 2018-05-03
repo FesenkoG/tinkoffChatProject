@@ -17,7 +17,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
     weak var communicatorModel: ICommunicatorModel?
-    var storageManager: IStorageModel!
+    var conversationsModel: IConversationsModel!
     var rootAssembly: RootAssembly!
     var messagesControllerModel: IFRCMessagesModel!
     
@@ -79,7 +79,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         if let text = inputTextField.text, text != "" {
             communicatorModel?.sendMessage(string: text, to: userId, completionHandler: { (success, error) in
                 if success {
-                    self.storageManager.saveNewMessageInConversation(conversationId: generateConversationId(fromUserId: self.userId), text: text, isIncoming: false, completionHandler: { (success) in
+                    self.conversationsModel.saveNewMessageInConversation(conversationId: generateConversationId(fromUserId: self.userId), text: text, isIncoming: false, completionHandler: { (success) in
                         if success {
                             print("Good")
                         }

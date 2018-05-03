@@ -13,7 +13,7 @@ class ConversationsViewController: UITableViewController {
     
     let rootAssembly = RootAssembly()
     
-    lazy var storageManager = self.rootAssembly.presentationAssembly.getStorageModel()
+    lazy var conversationsModel = self.rootAssembly.presentationAssembly.getConversationsModel()
     lazy var communicatorModel = rootAssembly.presentationAssembly.getCommunicatorModel()
     lazy var conversationsControllerModel = rootAssembly.presentationAssembly.getFRCConversationsModel()
     
@@ -25,7 +25,7 @@ class ConversationsViewController: UITableViewController {
     }
     
     @objc func didEnterBackground(_ notif: Notification) {
-        storageManager.setAllConversationsOffline()
+        conversationsModel.setAllConversationsOffline()
         communicatorModel.removeAllSessions()
         tableView.reloadData()
     }
@@ -70,13 +70,14 @@ class ConversationsViewController: UITableViewController {
             convVC.initView(channel: sender as! ConversationInApp)
             convVC.communicatorModel = communicatorModel
             convVC.rootAssembly = rootAssembly
-            convVC.storageManager = storageManager
+            convVC.conversationsModel = conversationsModel
         } else if let themesVC = segue.destination as? ThemesViewController {
             themesVC.delegate = self
         } else if let themesVC = segue.destination as? ThemesViewControllerSwift {
             themesVC.closure = { themeChanged }()
         } else if let profileVC = segue.destination as? ProfileViewController {
-            profileVC.storageManager = storageManager
+            profileVC.profileModel = rootAssembly.presentationAssembly.getProfileModel()
+            profileVC.rootAssembly = rootAssembly
         }
     }
     
@@ -122,7 +123,7 @@ extension ConversationsViewController: ThemesViewControllerDelegate {
 extension ConversationsViewController: CommunicatorModelDelegate {
     func didFoundUser(userID: String, userName: String?) {
         
-        storageManager.insertOrUpdateConversationWithUser(userId: userID, userName: userName!) { (success) in
+        conversationsModel.insertOrUpdateConversationWithUser(userId: userID, userName: userName!) { (success) in
             if success {
                 print("good")
             }
@@ -130,12 +131,12 @@ extension ConversationsViewController: CommunicatorModelDelegate {
     }
     
     func didLostUser(userID: String) {
-        storageManager.userBecameInactive(userId: userID)
+        conversationsModel.userBecameInactive(userId: userID)
     }
     
     func didRecieveMessage(text: String, fromUser: String, toUser: String) {
         
-        storageManager.saveNewMessageInConversation(conversationId: generateConversationId(fromUserId: fromUser), text: text, isIncoming: true) { (success) in
+        conversationsModel.saveNewMessageInConversation(conversationId: generateConversationId(fromUserId: fromUser), text: text, isIncoming: true) { (success) in
             if success {
                 print("Good")
             }

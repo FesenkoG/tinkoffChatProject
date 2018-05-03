@@ -11,7 +11,6 @@ import UIKit
 class ProfileViewController: UIViewController {
     
 
-    @IBOutlet var operationBtn: RoundedButton!
     @IBOutlet var gcdBtn: RoundedButton!
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet var saveBtnStack: UIStackView!
@@ -22,7 +21,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     
     private lazy var imagePicker = UIImagePickerController()
-    var storageManager: IStorageModel!
+    var profileModel: IProfileModel!
+    var rootAssembly: RootAssembly!
     
     private var currentUserName = ""
     private var currentUserDescription = ""
@@ -71,16 +71,15 @@ class ProfileViewController: UIViewController {
             spinner.isHidden = false
             spinner.startAnimating()
             //Выключить кнопки
-            operationBtn.isEnabled = false
             gcdBtn.isEnabled = false
             changeUserImgBtn.isEnabled = false
             
             let user = UserInApp(name: name, descr: descr, image: image)
-            storageManager.saveData(user: user) { (success) in
+            profileModel.saveData(user: user) { (success) in
                 self.spinner.stopAnimating()
                 self.spinner.isHidden = true
                 //Включить кнопки
-                self.operationBtn.isEnabled = true
+                
                 self.gcdBtn.isEnabled = true
                 self.changeUserImgBtn.isEnabled = true
 
@@ -98,7 +97,7 @@ class ProfileViewController: UIViewController {
                     let actionRepeat = UIAlertAction(title: "Повторить", style: UIAlertActionStyle.default, handler: { (action) in
                         self.spinner.isHidden = false
                         self.spinner.startAnimating()
-                        self.storageManager.saveData(user: user, completionHandler: { (success) in
+                        self.profileModel.saveData(user: user, completionHandler: { (success) in
                             self.spinner.stopAnimating()
                             self.spinner.isHidden = true
                             if success {
@@ -140,8 +139,17 @@ class ProfileViewController: UIViewController {
             }
         }
         
+        let downloadAction = UIAlertAction(title: "Загрузить", style: .default) { (buttonTapped) in
+            guard let choosePhotoVC = self.storyboard?.instantiateViewController(withIdentifier: "choosePhotoVC") as? ChoosePhotoViewController else { return }
+            choosePhotoVC.model = self.rootAssembly.presentationAssembly.getChoosePhotoModel()
+            choosePhotoVC.delegate = self
+            self.present(choosePhotoVC, animated: true, completion: nil)
+            
+        }
+        
         changeUserImage.addAction(galleryAction)
         changeUserImage.addAction(photoAction)
+        changeUserImage.addAction(downloadAction)
         present(changeUserImage, animated: true, completion: nil)
         
     }
@@ -155,7 +163,6 @@ class ProfileViewController: UIViewController {
         changeUserImgBtn.imageEdgeInsets = UIEdgeInsetsMake(20, 20, 20, 20)
         userImg.layer.cornerRadius = radius
         
-        changeUserImgBtn.isHidden = true
         self.spinner.isHidden = true
     }
     
@@ -173,7 +180,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func initialRetrieve() {
-        storageManager.retrieveData { (result) in
+        profileModel.retrieveData { (result) in
             switch result {
             case .Success(let user):
                 self.userImg.image = user.image
@@ -194,7 +201,6 @@ class ProfileViewController: UIViewController {
         self.saveBtnStack.isHidden = false
         self.editBtn.isHidden = true
         self.usernameTxtField.isEnabled = true
-        self.changeUserImgBtn.isHidden = false
         
         self.userDescriptionTxtField.isEditable = true
         self.userDescriptionTxtField.layer.borderWidth = 1.0
@@ -205,7 +211,6 @@ class ProfileViewController: UIViewController {
         self.saveBtnStack.isHidden = true
         self.editBtn.isHidden = false
         self.usernameTxtField.isEnabled = false
-        self.changeUserImgBtn.isHidden = true
         
         self.userDescriptionTxtField.isEditable = false
         self.userDescriptionTxtField.layer.borderWidth = 0.0
@@ -241,3 +246,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     
 }
 
+//MARK: - ChoosePhotoDelegate
+extension ProfileViewController: ItemSelected {
+    func didSelectItem(with image: UIImage) {
+        let userInApp = UserInApp(name: currentUserName, descr: currentUserDescription, image: image)
+        userImg.image = image
+        profileModel.saveData(user: userInApp) { (success) in
+            print("Data have been saved")
+            self.currentUserImage = image
+        }
+    }
+    
+}

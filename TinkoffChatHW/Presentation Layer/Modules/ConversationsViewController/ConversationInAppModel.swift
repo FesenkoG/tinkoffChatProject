@@ -97,47 +97,38 @@ class FRCConversationsModel: IFRCConversationsModel, FRCConversationsServiceDele
     }
     
 }
-//MARK: - FRCStorageModel
-class StorageModel: IStorageModel {
-    let storageService: IStorageService
+
+//MARK: - Conversations Model
+class ConversationsModel: IConversationsModel {
+    let conversationsService: IConversationsService
     
-    init(service: IStorageService) {
-        self.storageService = service
+    init(service: IConversationsService) {
+        self.conversationsService = service
     }
     
     func insertOrUpdateConversationWithUser(userId: String, userName: String, completionHandler: ((Bool) -> Void)?) {
-        storageService.insertOrUpdateConversationWithUser(userId: userId, userName: userName, completionHandler: completionHandler)
+        conversationsService.insertOrUpdateConversationWithUser(userId: userId, userName: userName, completionHandler: completionHandler)
     }
     
     func saveNewMessageInConversation(conversationId: String, text: String, isIncoming: Bool, completionHandler: ((Bool) -> Void)?) {
-        storageService.saveNewMessageInConversation(conversationId: conversationId, text: text, isIncoming: isIncoming, completionHandler: completionHandler)
+        conversationsService.saveNewMessageInConversation(conversationId: conversationId, text: text, isIncoming: isIncoming, completionHandler: completionHandler)
     }
     
     func userBecameInactive(userId: String) {
-        storageService.userBecameInactive(userId: userId)
+        conversationsService.userBecameInactive(userId: userId)
     }
     
     func setAllConversationsOffline() {
-        storageService.setAllConversationsOffline()
+        conversationsService.setAllConversationsOffline()
     }
     
-    func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?) {
-        storageService.saveData(user: user, completionHandler: completionHandler)
-    }
-    
-    func retrieveData(completionHandler: @escaping (Result) -> Void) {
-        storageService.retrieveData(completionHandler: completionHandler)
-    }
 }
-//MARK: - Storage Protocol
-protocol IStorageModel {
+//MARK: - ConversationsModel Protocol
+protocol IConversationsModel {
     func insertOrUpdateConversationWithUser(userId: String, userName: String, completionHandler: ((Bool) -> Void)?)
     func saveNewMessageInConversation(conversationId: String, text:String, isIncoming: Bool, completionHandler: ((Bool) -> Void)?)
     func userBecameInactive(userId: String)
     func setAllConversationsOffline()
-    func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?)
-    func retrieveData(completionHandler: @escaping (Result) -> Void)
-    
     
 }
 //MARK: - Communicator Protocols

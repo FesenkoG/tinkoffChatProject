@@ -1,25 +1,22 @@
 //
-//  StorageManager.swift
+//  ConversationsManager.swift
 //  TinkoffChatHW
 //
-//  Created by Георгий Фесенко on 10.04.2018.
+//  Created by Георгий Фесенко on 01.05.2018.
 //  Copyright © 2018 Georgy. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
-protocol IStorageManager {
+protocol IConversationsManager {
     func insertOrUpdateConversationWithUser(userId: String, userName: String, completionHandler: ((Bool) -> Void)?)
     func saveNewMessageInConversation(conversationId: String, text:String, isIncoming: Bool, completionHandler: ((Bool) -> Void)?)
     func userBecameInactive(userId: String)
     func setAllConversationsOffline()
-    func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?)
-    func retrieveData(completionHandler: @escaping (Result) -> Void)
-    
 }
 
-class StorageManager: IStorageManager {
+class ConversationsManager: IConversationsManager {
     
     private let coreDataStack: CoreDataStack
     
@@ -129,64 +126,4 @@ class StorageManager: IStorageManager {
         
         coreDataStack.performSave(context: coreDataStack.saveContext, completionHandler: nil)
     }
-    
-    
-    func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?) {
-        guard let appUser = coreDataStack.findOrInsertAppUser(in: coreDataStack.saveContext) else { return }
-        appUser.descr = user.descr
-        appUser.name = user.name
-        appUser.image = UIImageJPEGRepresentation(user.image, 1.0)
-        
-        coreDataStack.performSave(context: coreDataStack.saveContext) { (success) in
-            completionHandler?(success)
-        }
-    }
-    
-    func retrieveData(completionHandler: @escaping (Result) -> Void) {
-        if let appUser = coreDataStack.findOrInsertAppUser(in: coreDataStack.saveContext) {
-            if let imageData = appUser.image, let name = appUser.name, let descr = appUser.descr {
-                let image = UIImage(data: imageData)!
-                completionHandler(Result.Success(UserInApp(name: name, descr: descr, image: image)))
-            } else {
-                completionHandler(Result.Success(UserInApp(name: "Insert a name here", descr: "Here is a place for user information", image: UIImage(named: "placeholder-user")!)))
-            }
-        } else {
-            completionHandler(Result.Failure("Something went wrong"))
-            
-        }
-        
-    }
-    
-    func createFRCForConversations() -> NSFetchedResultsController<Conversation> {
-        let request: NSFetchRequest<Conversation> = Conversation.fetchRequest()
-        let sortDesctiptorIsOnline = NSSortDescriptor(key: #keyPath(Conversation.isOnline), ascending: false)
-        request.sortDescriptors = [sortDesctiptorIsOnline]
-        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStack.saveContext, sectionNameKeyPath: #keyPath(Conversation.isOnline), cacheName: nil)
-        return frc
-    }
-    
-    func createFRCForMessages(withConvID convID: String) -> NSFetchedResultsController<Message>? {
-        
-        if let request = coreDataStack.managedObjectModel.fetchRequestFromTemplate(withName: "MessagesFromConvID", substitutionVariables: ["convId": convID]) as? NSFetchRequest<Message> {
-            let sortDescriptor = NSSortDescriptor(key: #keyPath(Message.date), ascending: true)
-            request.sortDescriptors = [sortDescriptor]
-            let frc =  NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStack.saveContext, sectionNameKeyPath: nil, cacheName: nil)
-            
-            return frc
-        }
-        
-        return nil
-    }
-    
-    func deleteObject(object: NSManagedObject) {
-        coreDataStack.saveContext.delete(object)
-        
-        coreDataStack.performSave(context: coreDataStack.saveContext, completionHandler: nil)
-    }
-    
-}
-
-enum Result {
-    case Success(UserInApp)
-    case Failure(String)
 }

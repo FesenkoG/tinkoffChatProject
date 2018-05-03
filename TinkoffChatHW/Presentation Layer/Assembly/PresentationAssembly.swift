@@ -28,16 +28,25 @@ class PresentationAssembly: IPresentationAssembly {
         return FRCMessagesModel(frcMessagesService: serviceAssembly.frcMessagesService)
     }
     
-    func getStorageModel() -> IStorageModel {
-        return StorageModel(service: serviceAssembly.storageService)
+    func getConversationsModel() -> IConversationsModel {
+        return ConversationsModel(service: serviceAssembly.conversationsService)
+    }
+    
+    func getProfileModel() -> IProfileModel {
+        return ProfileModel(profileService: serviceAssembly.profileService)
+    }
+    func getChoosePhotoModel() -> IChoosePhotoModel {
+        return ChoosePhotoModel(requestService: serviceAssembly.requestService)
     }
     
     
 }
 
 protocol IPresentationAssembly {
-    func getStorageModel() -> IStorageModel
     func getCommunicatorModel() -> ICommunicatorModel
     func getFRCConversationsModel() -> IFRCConversationsModel
     func getFRCMessagesModel() -> IFRCMessagesModel
+    func getChoosePhotoModel() -> IChoosePhotoModel
+    func getConversationsModel() -> IConversationsModel
+    func getProfileModel() -> IProfileModel
 }
