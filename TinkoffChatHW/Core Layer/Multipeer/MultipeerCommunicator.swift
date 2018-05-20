@@ -27,6 +27,7 @@ class MultipeerCommunicator: NSObject, ICommunicator {
     }
     
     override init() {
+        
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: ["userName": UIDevice.current.name], serviceType: serviceType)
         self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
         self.online = true
@@ -105,7 +106,6 @@ extension MultipeerCommunicator: MCNearbyServiceBrowserDelegate {
         
         if let userInfo = info {
             if let userName = userInfo["userName"] {
-                print(peerID.displayName)
                 if sessions[peerID.displayName] == nil {
                     let session = MCSession(peer: myPeerId)
                     session.delegate = self

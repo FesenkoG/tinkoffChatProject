@@ -95,16 +95,25 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
         self.view.createTinkoffLogoAnimation()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let isOnline = channel?.online {
+            if isOnline {
+                isUserOnline = true
+            }
+        }
+    }
+    
     func setupLabel() {
         
         label.backgroundColor = UIColor.clear
-        label.font = UIFont.systemFont(ofSize: 19.0)
+        label.font = UIFont.systemFont(ofSize: 17.0)
         label.textAlignment = .center
         label.textColor = UIColor.black
         self.navigationItem.titleView = label
         //label.sizeToFit()
         if let isOnline = channel?.online {
-            isUserOnline = isOnline
+            label.textColor = isOnline ? .green : .black
         }
         
     }
