@@ -16,9 +16,7 @@ class ConversationsViewController: UITableViewController {
     lazy var communicatorModel = rootAssembly.presentationAssembly.getCommunicatorModel()
     lazy var conversationsControllerModel = rootAssembly.presentationAssembly.getFRCConversationsModel()
     
-    var timer: Timer?
-    var location: CGPoint?
-    var imgSize: CGFloat = 40
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

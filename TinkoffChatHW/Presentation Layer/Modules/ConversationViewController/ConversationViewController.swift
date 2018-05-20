@@ -16,10 +16,7 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet var inputTextField: UITextField!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
-    var timer: Timer?
-    var location: CGPoint?
-    let imgSize: CGFloat = 40
-    
+
     
     let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
     
@@ -83,7 +80,6 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         isSendBlocked = true
         setupLabel()
         setupObservers()

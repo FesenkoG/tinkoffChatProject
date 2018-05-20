@@ -13,10 +13,6 @@ class ChoosePhotoViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var timer: Timer?
-    var location: CGPoint?
-    let imgSize: CGFloat = 40
-    
     var model: IChoosePhotoModel?
     private var numberOfPhotos = 0
     
