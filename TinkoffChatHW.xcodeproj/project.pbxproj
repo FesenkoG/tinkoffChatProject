@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66366B1B20B1485200863C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66366B1A20B1485200863C70 /* Assets.xcassets */; };
 		665D7BBD205EF7A800A0090C /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BBC205EF7A800A0090C /* ThemesViewController.m */; };
 		665D7BC9205FD6A500A0090C /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BC8205FD6A500A0090C /* Themes.m */; };
 		665D7BCB206037D500A0090C /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665D7BCA206037D500A0090C /* ThemesViewControllerSwift.swift */; };
@@ -25,7 +26,6 @@
 		66BA93C32042F33700C08154 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93C22042F33700C08154 /* AppDelegate.swift */; };
 		66BA93C52042F33700C08154 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93C42042F33700C08154 /* ProfileViewController.swift */; };
 		66BA93C82042F33700C08154 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BA93C62042F33700C08154 /* Main.storyboard */; };
-		66BA93CA2042F33700C08154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BA93C92042F33700C08154 /* Assets.xcassets */; };
 		66BA93CD2042F33700C08154 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BA93CB2042F33700C08154 /* LaunchScreen.storyboard */; };
 		66BA93D520431ECF00C08154 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA93D420431ECF00C08154 /* Functions.swift */; };
 		66D104D7206B9B430043C452 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D104D6206B9B430043C452 /* Extensions.swift */; };
@@ -64,6 +64,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		66366B1A20B1485200863C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		665D7BBA205EF7A700A0090C /* TinkoffChatHW-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TinkoffChatHW-Bridging-Header.h"; sourceTree = "<group>"; };
 		665D7BBB205EF7A800A0090C /* ThemesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewController.h; sourceTree = "<group>"; };
 		665D7BBC205EF7A800A0090C /* ThemesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThemesViewController.m; sourceTree = "<group>"; };
@@ -87,7 +88,6 @@
 		66BA93C22042F33700C08154 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BA93C42042F33700C08154 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		66BA93C72042F33700C08154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		66BA93C92042F33700C08154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66BA93CC2042F33700C08154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		66BA93CE2042F33700C08154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66BA93D420431ECF00C08154 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -152,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				66BA93C12042F33700C08154 /* TinkoffChatHW */,
+				66366B1A20B1485200863C70 /* Assets.xcassets */,
 				66BA93C02042F33700C08154 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -173,7 +174,6 @@
 				665D7BCE20626EB100A0090C /* Utilities */,
 				66BA93C22042F33700C08154 /* AppDelegate.swift */,
 				66D265222091AE9F00301B7E /* RootAssembly.swift */,
-				66BA93C92042F33700C08154 /* Assets.xcassets */,
 				66BA93CB2042F33700C08154 /* LaunchScreen.storyboard */,
 				66BA93CE2042F33700C08154 /* Info.plist */,
 				66D264EE207D03F400301B7E /* CoreDataModel.xcdatamodeld */,
@@ -504,7 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66BA93CD2042F33700C08154 /* LaunchScreen.storyboard in Resources */,
-				66BA93CA2042F33700C08154 /* Assets.xcassets in Resources */,
+				66366B1B20B1485200863C70 /* Assets.xcassets in Resources */,
 				66BA93C82042F33700C08154 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

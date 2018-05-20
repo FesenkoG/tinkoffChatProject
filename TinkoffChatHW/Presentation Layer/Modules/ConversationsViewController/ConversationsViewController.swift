@@ -10,24 +10,28 @@ import UIKit
 
 class ConversationsViewController: UITableViewController {
     
-    
     let rootAssembly = RootAssembly()
     
     lazy var conversationsModel = self.rootAssembly.presentationAssembly.getConversationsModel()
     lazy var communicatorModel = rootAssembly.presentationAssembly.getCommunicatorModel()
     lazy var conversationsControllerModel = rootAssembly.presentationAssembly.getFRCConversationsModel()
     
+    var timer: Timer?
+    var location: CGPoint?
+    var imgSize: CGFloat = 40
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNotifications()
         setupModels()
+        self.view.createTinkoffLogoAnimation()
         
     }
     
     @objc func didEnterBackground(_ notif: Notification) {
         conversationsModel.setAllConversationsOffline()
         communicatorModel.removeAllSessions()
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     
@@ -122,7 +126,7 @@ extension ConversationsViewController: ThemesViewControllerDelegate {
 // MARK: - CommunicatorModelDelegate
 extension ConversationsViewController: CommunicatorModelDelegate {
     func didFoundUser(userID: String, userName: String?) {
-        
+        NotificationCenter.default.post(name: .init(didFoundUserNotif), object: userID)
         conversationsModel.insertOrUpdateConversationWithUser(userId: userID, userName: userName!) { (success) in
             if success {
                 print("good")
@@ -132,6 +136,7 @@ extension ConversationsViewController: CommunicatorModelDelegate {
     
     func didLostUser(userID: String) {
         conversationsModel.userBecameInactive(userId: userID)
+        NotificationCenter.default.post(name: NSNotification.Name.init(didLostUserNotif), object: userID)
     }
     
     func didRecieveMessage(text: String, fromUser: String, toUser: String) {

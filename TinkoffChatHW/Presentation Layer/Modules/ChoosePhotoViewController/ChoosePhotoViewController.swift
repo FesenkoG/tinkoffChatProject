@@ -13,6 +13,10 @@ class ChoosePhotoViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var timer: Timer?
+    var location: CGPoint?
+    let imgSize: CGFloat = 40
+    
     var model: IChoosePhotoModel?
     private var numberOfPhotos = 0
     
@@ -23,6 +27,7 @@ class ChoosePhotoViewController: UIViewController, UICollectionViewDelegate, UIC
         startSpinner()
         collectionViewSetup()
         loadLinks()
+        self.view.createTinkoffLogoAnimation()
     }
     
     @IBAction func cancelBtnWasPressed(_ sender: Any) {

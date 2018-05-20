@@ -59,6 +59,9 @@ class FRCCommunicatorConversations: NSObject, NSFetchedResultsControllerDelegate
             newType = .move
         case .update:
             newType = .update
+            guard let numberOfSections = self.conversationsController.sections?.count else { return }
+            guard let sec = indexPath?.section else { return }
+            guard numberOfSections > sec else { return }
             guard let conversation = self.conversationsController?.object(at: indexPath!) else { return }
             var dateOfLastMessage: Date?
             var lastMessage: String?

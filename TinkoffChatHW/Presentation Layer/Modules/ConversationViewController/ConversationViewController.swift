@@ -16,32 +16,111 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet var inputTextField: UITextField!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
+    var timer: Timer?
+    var location: CGPoint?
+    let imgSize: CGFloat = 40
+    
+    
+    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+    
     weak var communicatorModel: ICommunicatorModel?
     var conversationsModel: IConversationsModel!
     var rootAssembly: RootAssembly!
     var messagesControllerModel: IFRCMessagesModel!
     
     var userId = ""
+    private var channel: ConversationInApp?
+    var isTextFieldEmpty = true
+    var isUserOnline = true {
+        willSet(value) {
+            if value == true {
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.label.textColor = UIColor.green
+                    self.label.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                })
+                
+            } else {
+                UIView.animate(withDuration: 1.0) {
+                   self.label.textColor = UIColor.black
+                    self.label.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    
+                }
+                
+            }
+        }
+    }
+    
+    var isSendBlocked = false {
+        willSet(value) {
+            if value == true {
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.sendBtn.setTitleColor(#colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1), for: .normal)
+                    self.sendBtn.isEnabled = false
+                    self.sendBtn.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                    
+                }) { _ in
+                    
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.sendBtn.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    }, completion: nil)
+                }
+            } else {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.sendBtn.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+                    self.sendBtn.isEnabled = true
+                    self.sendBtn.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                }) { _ in
+                    
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.sendBtn.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    }, completion: nil)
+                }
+            }
+        }
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
+        isSendBlocked = true
+        setupLabel()
         setupObservers()
         setupTableView()
         modelSetup()
+        inputTextField.delegate = self
         sendBtn.isEnabled = true
+        
+        self.view.createTinkoffLogoAnimation()
+    }
+    
+    func setupLabel() {
+        
+        label.backgroundColor = UIColor.clear
+        label.font = UIFont.systemFont(ofSize: 19.0)
+        label.textAlignment = .center
+        label.textColor = UIColor.black
+        self.navigationItem.titleView = label
+        //label.sizeToFit()
+        if let isOnline = channel?.online {
+            isUserOnline = isOnline
+        }
+        
     }
     
     func initView(channel: ConversationInApp) {
-        navigationItem.title = channel.name
+        label.text = channel.name
         self.userId = channel.userId!
+        self.channel = channel
         
     }
     
     @objc func blockSend(_ notif: Notification) {
         if let userID = notif.object as? String {
             if userID == userId {
-                sendBtn.isEnabled = false
+                isUserOnline = false
+                isSendBlocked = true
             }
         }
     }
@@ -49,7 +128,10 @@ class ConversationViewController: UIViewController, UITableViewDataSource, UITab
     @objc func unblockSend(_ notif: Notification) {
         if let userID = notif.object as? String {
             if userID == userId {
-                sendBtn.isEnabled = true
+                isUserOnline = true
+                if !isTextFieldEmpty {
+                    isSendBlocked = false
+                }
             }
         }
     }
@@ -200,5 +282,34 @@ extension ConversationViewController: FRCMessagesModelDelegate {
         }
     }
     
-    
+}
+
+extension ConversationViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "" && range.location == 0 {
+            isTextFieldEmpty = true
+        }
+        
+        if isUserOnline {
+            if string == "" && range.location == 0 {
+                isSendBlocked = true
+                isTextFieldEmpty = true
+            } else {
+                isTextFieldEmpty = false
+                if isSendBlocked {
+                    isSendBlocked = false
+                }
+            }
+        }
+//        if let text = textField.text {
+//            if text == ""{
+//                NotificationCenter.default.post(name: NSNotification.Name.init(didLostUserNotif), object: userId)
+//            } else {
+//                NotificationCenter.default.post(name: NSNotification.Name.init(didFoundUserNotif), object: userId)
+//            }
+//        } else {
+//            NotificationCenter.default.post(name: NSNotification.Name.init(didLostUserNotif), object: userId)
+//        }
+        return true
+    }
 }
