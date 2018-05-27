@@ -29,6 +29,6 @@ class ProfileService: IProfileService {
     }
     
     func deleteUserData(completionHandler: @escaping (Bool) -> Void) {
-        
+        profileManager.saveData(user: UserInApp(name: "", descr: "", image: UIImage(named: "placeholder-user")!), completionHandler: completionHandler)
     }
 }

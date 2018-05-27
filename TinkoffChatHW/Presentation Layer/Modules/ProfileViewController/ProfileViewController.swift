@@ -120,7 +120,8 @@ class ProfileViewController: UIViewController {
     
     func deleteData() {
         profileModel.deleteUserData { (success) in
-            
+            self.usernameTxtField.text = ""
+            self.userDescriptionTxtField.text = ""
         }
     }
     

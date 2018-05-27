@@ -34,7 +34,7 @@ class ProfileModel: IProfileModel {
     }
     
     func deleteUserData(completionHandler: @escaping (Bool) -> Void) {
-        
+        profileService.deleteUserData(completionHandler: completionHandler)
     }
     
     
