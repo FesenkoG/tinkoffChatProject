@@ -11,6 +11,7 @@ import Foundation
 protocol IProfileService {
     func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?)
     func retrieveData(completionHandler: @escaping (Result<UserInApp>) -> Void)
+    func deleteUserData()
 }
 
 class ProfileService: IProfileService {
@@ -25,5 +26,9 @@ class ProfileService: IProfileService {
     
     func retrieveData(completionHandler: @escaping (Result<UserInApp>) -> Void) {
         profileManager.retrieveData(completionHandler: completionHandler)
+    }
+    
+    func deleteUserData() {
+        
     }
 }
