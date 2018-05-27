@@ -122,35 +122,35 @@ class ProfileServiceTests: XCTestCase {
         XCTAssertEqual(descr!, "")
     }
     
-    func testDeleteMethodInViewController() {
+    func testDeleteMethodInModel() {
         controllerUnderTest.usernameTxtField.text = "Vasya"
         controllerUnderTest.userDescriptionTxtField.text = "Another good person"
-        controllerUnderTest.saveData()
         
         var name: String?
         var description: String?
         let expectation = self.expectation(description: "Waiting")
         
         //when
-        controllerUnderTest.deleteData()
-        controllerUnderTest.profileModel.retrieveData { (result) in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let user):
-                name = user.name
-                description = user.descr
-                expectation.fulfill()
+        
+        controllerUnderTest.profileModel.deleteUserData { (success) in
+            self.controllerUnderTest.profileModel.retrieveData { (result) in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let user):
+                    name = user.name
+                    description = user.descr
+                    expectation.fulfill()
+                }
+                
             }
-            
         }
+        
         waitForExpectations(timeout: 5, handler: nil)
         
         //then
-        XCTAssertEqual(controllerUnderTest.usernameTxtField.text, "")
-        XCTAssertEqual(controllerUnderTest.userDescriptionTxtField.text, "")
         XCTAssertEqual(name!, "")
-        XCTAssertEqual(descr!, "")
+        XCTAssertEqual(description!, "")
     }
     
 }
