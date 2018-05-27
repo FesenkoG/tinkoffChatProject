@@ -10,6 +10,7 @@ import Foundation
 protocol IProfileModel {
     func saveData(user: UserInApp, completionHandler: ((Bool) -> Void)?)
     func retrieveData(completionHandler: @escaping (Result<UserInApp>) -> Void)
+    func deleteUserData(completionHandler: @escaping (Bool) -> Void)
 }
 
 struct UserInApp {
@@ -30,6 +31,10 @@ class ProfileModel: IProfileModel {
     
     func retrieveData(completionHandler: @escaping (Result<UserInApp>) -> Void) {
         profileService.retrieveData(completionHandler: completionHandler)
+    }
+    
+    func deleteUserData(completionHandler: @escaping (Bool) -> Void) {
+        
     }
     
     

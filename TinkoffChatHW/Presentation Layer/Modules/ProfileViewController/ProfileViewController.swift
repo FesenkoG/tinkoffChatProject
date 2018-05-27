@@ -118,6 +118,12 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func deleteData() {
+        profileModel.deleteUserData { (success) in
+            
+        }
+    }
+    
     
     @IBAction func changeUserImgBtnWasPressed(_ sender: Any) {
         imagePicker.delegate = self
