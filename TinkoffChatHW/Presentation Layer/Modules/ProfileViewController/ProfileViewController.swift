@@ -66,7 +66,10 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func saveBtnWasPressed(_ sender: RoundedButton) {
-        
+        saveData()
+    }
+    
+    func saveData() {
         if let name = usernameTxtField.text, let descr = userDescriptionTxtField.text, let image = userImg.image, (name != currentUserName || descr != currentUserDescription || image != currentUserImage) {
             spinner.isHidden = false
             spinner.startAnimating()
@@ -82,7 +85,7 @@ class ProfileViewController: UIViewController {
                 
                 self.gcdBtn.isEnabled = true
                 self.changeUserImgBtn.isEnabled = true
-
+                
                 if success {
                     self.dataHaveBeenSaved()
                     self.currentUserName = user.name
@@ -113,7 +116,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-        
     }
     
     

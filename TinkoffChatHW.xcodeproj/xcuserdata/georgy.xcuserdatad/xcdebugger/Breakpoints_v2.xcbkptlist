@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationsViewController/ConversationsViewController.swift"
-            timestampString = "548537561.59971"
+            timestampString = "548538043.55624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "changingContent(indexPath:typeOfChanging:newIndexPath:channel:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationsViewController/ConversationsViewController.swift"
-            timestampString = "548537561.599828"
+            timestampString = "548538043.556344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "didRecieveMessage(text:fromUser:toUser:)"
             landmarkType = "7">
             <Locations>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationViewController/ConversationViewController.swift"
-            timestampString = "548537561.600615"
+            timestampString = "548538043.5564719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationViewController/ConversationViewController.swift"
-            timestampString = "548537561.600826"
+            timestampString = "548538043.556613"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "changingContent(indexPath:typeOfChanging:newIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,13 +522,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ChoosePhotoViewController/ChoosePhotoViewController.swift"
-            timestampString = "548537561.601118"
+            timestampString = "548538043.556931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "collectionView(_:didSelectItemAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -538,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationViewController/ConversationViewController.swift"
-            timestampString = "548537561.601181"
+            timestampString = "548538043.557394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "isSendBlocked"
             landmarkType = "24">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationViewController/ConversationViewController.swift"
-            timestampString = "548537561.601264"
+            timestampString = "548538043.557518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "isUserOnline"
             landmarkType = "24">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TinkoffChatHW/Presentation Layer/Modules/ConversationViewController/ConversationViewController.swift"
-            timestampString = "548537561.601319"
+            timestampString = "548538043.557596"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "isUserOnline"
             landmarkType = "24">
             <Locations>
