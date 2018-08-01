@@ -1,2 +1,1 @@
-# tinkoffChatProject
-## This is as awesome chat based on mutlipeer! 
+## Project, which purpose is to remind me about good app architecture...
